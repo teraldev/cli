@@ -1,0 +1,67 @@
+overlay: 1.0.0
+x-speakeasy-jsonpath: rfc9535
+info:
+  title: Overlay internal/api/openapi.yaml => 3.0 compatible spec
+  version: 0.0.0
+actions:
+  - target: $["openapi"]
+    update: 3.0.0
+  - target: $["components"]["schemas"]["V1EnvironmentsUpdateSettingsRequestBody"]["properties"]["healthcheck"]["anyOf"]
+    remove: true
+  - target: $["components"]["schemas"]["V1EnvironmentsUpdateSettingsRequestBody"]["properties"]["healthcheck"]
+    update:
+      nullable: true
+      allOf:
+        - $ref: "#/components/schemas/EnvironmentHealthcheck"
+  - target: $["components"]["schemas"]["V1EnvironmentsUpdateSettingsRequestBody"]["properties"]["dockerfile"]["type"]
+    update: string
+  - target: $["components"]["schemas"]["V1EnvironmentsUpdateSettingsRequestBody"]["properties"]["dockerfile"]
+    update:
+      nullable: true
+  - target: $["components"]["schemas"]["V1EnvironmentsUpdateSettingsRequestBody"]["properties"]["openapiSpecPath"]["type"]
+    update: string
+  - target: $["components"]["schemas"]["V1EnvironmentsUpdateSettingsRequestBody"]["properties"]["openapiSpecPath"]
+    update:
+      nullable: true
+  - target: $["components"]["schemas"]["V1EnvironmentsUpdateSettingsRequestBody"]["properties"]["buildCommand"]["type"]
+    update: string
+  - target: $["components"]["schemas"]["V1EnvironmentsUpdateSettingsRequestBody"]["properties"]["buildCommand"]
+    update:
+      nullable: true
+  - target: $["components"]["schemas"]["V1AppsUpdateAppRequestBody"]["properties"]["git"]["anyOf"]
+    remove: true
+  - target: $["components"]["schemas"]["V1AppsUpdateAppRequestBody"]["properties"]["git"]
+    update:
+      nullable: true
+      allOf:
+        - $ref: "#/components/schemas/AppGitUpdateInput"
+  - target: $["components"]["schemas"]["V1GatewayUpdatePolicyRequestBody"]["properties"]["match"]["type"]
+    update: array
+  - target: $["components"]["schemas"]["V1GatewayUpdatePolicyRequestBody"]["properties"]["match"]
+    update:
+      nullable: true
+  - target: $["components"]["schemas"]["V1ApiKeysListKeysResponseData"]["properties"]["expires"]["type"]
+    update: integer
+  - target: $["components"]["schemas"]["V1ApiKeysListKeysResponseData"]["properties"]["expires"]
+    update:
+      nullable: true
+  - target: $["components"]["schemas"]["V1ApiKeysListKeysResponseData"]["properties"]["name"]["type"]
+    update: string
+  - target: $["components"]["schemas"]["V1ApiKeysListKeysResponseData"]["properties"]["name"]
+    update:
+      nullable: true
+  - target: $["components"]["schemas"]["V1ApiKeysCreateKeyRequestBody"]["properties"]["expires"]["type"]
+    update: integer
+  - target: $["components"]["schemas"]["V1ApiKeysCreateKeyRequestBody"]["properties"]["expires"]
+    update:
+      nullable: true
+  - target: $["components"]["schemas"]["V1ApiKeysUpdateKeyRequestBody"]["properties"]["name"]["type"]
+    update: string
+  - target: $["components"]["schemas"]["V1ApiKeysUpdateKeyRequestBody"]["properties"]["name"]
+    update:
+      nullable: true
+  - target: $["components"]["schemas"]["V1ApiKeysRerollKeyRequestBody"]["properties"]["expiration"]["type"]
+    update: integer
+  - target: $["components"]["schemas"]["V1ApiKeysRerollKeyRequestBody"]["properties"]["expiration"]
+    update:
+      nullable: true

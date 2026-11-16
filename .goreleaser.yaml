@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 2
+project_name: teral
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+builds:
+  - id: teral
+    main: ./cmd/teral
+    binary: teral
+    env:
+      - CGO_ENABLED=0
+    goos: [darwin, linux, windows]
+    goarch: [amd64, arm64]
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X github.com/teraldev/cli/internal/version.Version={{ .Version }}
+      - -X github.com/teraldev/cli/internal/version.Commit={{ .ShortCommit }}
+      - -X github.com/teraldev/cli/internal/version.Date={{ .Date }}
+
+archives:
+  - id: teral
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    name_template: "teral_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  use: github
+  filters:
+    exclude:
+      - "^chore"
+      - "^test"
+      - "^ci"
+
+brews:
+  - name: teral
+    repository:
+      owner: teraldev
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    homepage: https://teral.dev
+    description: Deploy and manage apps on Teral
+    license: Apache-2.0
+    install: |
+      bin.install "teral"
+      generate_completions_from_executable(bin/"teral", "completion")
+    test: |
+      system "#{bin}/teral", "version"
+
+scoops:
+  - name: teral
+    repository:
+      owner: teraldev
+      name: scoop-bucket
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    homepage: https://teral.dev
+    description: Deploy and manage apps on Teral
+    license: Apache-2.0
+
+release:
+  github:
+    owner: teraldev
+    name: cli
+  prerelease: auto

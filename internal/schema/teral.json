@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://teral.dev/schema/teral.json",
+  "$defs": {
+    "Build": {
+      "properties": {
+        "builder": {
+          "type": "string",
+          "enum": [
+            "dockerfile",
+            "railpack"
+          ],
+          "description": "How the image is built: \"dockerfile\" or \"railpack\" (automatic detection). Defaults to \"dockerfile\" when dockerfile is set and to \"railpack\" when command is set."
+        },
+        "dockerfile": {
+          "type": "string",
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[^/\\\\]",
+          "description": "Path to the Dockerfile, relative to the app's root directory."
+        },
+        "command": {
+          "type": "string",
+          "maxLength": 1000,
+          "minLength": 1,
+          "description": "Overrides the build command Railpack detects. Railpack builds only."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Deploy": {
+      "properties": {
+        "start_command": {
+          "items": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1
+          },
+          "type": "array",
+          "maxItems": 10,
+          "description": "Container start command in exec form, e.g. [\"node\", \"server.js\"]. An empty array uses the image's own command."
+        },
+        "port": {
+          "type": "integer",
+          "maximum": 65535,
+          "minimum": 1,
+          "description": "Port the app listens on."
+        },
+        "protocol": {
+          "type": "string",
+          "enum": [
+            "http1",
+            "h2c"
+          ],
+          "description": "Protocol used to reach the container."
+        },
+        "shutdown_signal": {
+          "type": "string",
+          "enum": [
+            "SIGTERM",
+            "SIGINT",
+            "SIGQUIT",
+            "SIGKILL"
+          ],
+          "description": "Signal sent to the container on shutdown."
+        },
+        "openapi_spec": {
+          "type": "string",
+          "maxLength": 512,
+          "minLength": 1,
+          "pattern": "^(/[\\w\\-]+)+(\\.[\\w]+)?$",
+          "description": "Path the app serves its OpenAPI spec on, e.g. \"/openapi.json\"."
+        },
+        "healthcheck": {
+          "$ref": "#/$defs/Healthcheck",
+          "description": "HTTP healthcheck. Replaces the dashboard healthcheck as a whole."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Healthcheck": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Set to false to turn the healthcheck off. No other keys are allowed then."
+        },
+        "path": {
+          "type": "string",
+          "maxLength": 512,
+          "minLength": 1,
+          "pattern": "^(/[\\w\\-]+)+(\\.[\\w]+)?$",
+          "description": "Path to probe, e.g. \"/healthz\". Required unless enabled is false."
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "POST"
+          ],
+          "description": "HTTP method used to probe. Defaults to GET."
+        },
+        "interval": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 2,
+          "pattern": "^([0-9]+(h|m|s))+$",
+          "description": "How often to probe, 1s to 1h. Defaults to 10s.",
+          "examples": [
+            "10s",
+            "1m30s"
+          ]
+        },
+        "timeout": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 2,
+          "pattern": "^([0-9]+(h|m|s))+$",
+          "description": "Per-probe timeout, 1s to 1h. Defaults to 5s.",
+          "examples": [
+            "10s",
+            "1m30s"
+          ]
+        },
+        "failure_threshold": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Consecutive failures before the container restarts, 1 to 100. Defaults to 3."
+        },
+        "initial_delay": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 2,
+          "pattern": "^([0-9]+(h|m|s))+$",
+          "description": "Wait before the first probe, 0s to 1h. Defaults to 0s.",
+          "examples": [
+            "10s",
+            "1m30s"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Overrides": {
+      "properties": {
+        "build": {
+          "$ref": "#/$defs/Build",
+          "description": "Build settings for this environment."
+        },
+        "deploy": {
+          "$ref": "#/$defs/Deploy",
+          "description": "Runtime settings for this environment."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "properties": {
+    "build": {
+      "$ref": "#/$defs/Build",
+      "description": "How the image is built."
+    },
+    "deploy": {
+      "$ref": "#/$defs/Deploy",
+      "description": "How the container runs."
+    },
+    "environments": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Overrides"
+      },
+      "type": "object",
+      "description": "Overrides for one environment, keyed by its slug (e.g. production, preview). Merged over [build] and [deploy] key by key."
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "title": "teral.toml",
+  "description": "Build and runtime settings for a Teral app. Values set here override the dashboard for each deployment."
+}
