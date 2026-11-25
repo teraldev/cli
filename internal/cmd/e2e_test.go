@@ -11,6 +11,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 	"testing"
@@ -225,7 +226,8 @@ func TestEndToEnd(t *testing.T) {
 	if err != nil || !strings.Contains(string(creds), fakeToken) {
 		t.Fatalf("token not stored in the credentials file: %v", err)
 	}
-	if info, _ := os.Stat(filepath.Join(os.Getenv("TERAL_CONFIG_DIR"), "credentials.toml")); info.Mode().Perm() != 0o600 {
+	// Windows has no Unix permissions; the file lives in the user's profile.
+	if info, _ := os.Stat(filepath.Join(os.Getenv("TERAL_CONFIG_DIR"), "credentials.toml")); runtime.GOOS != "windows" && info.Mode().Perm() != 0o600 {
 		t.Fatalf("credentials file mode %o", info.Mode().Perm())
 	}
 

@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"testing"
 )
@@ -89,7 +90,12 @@ func TestWriteWithoutGit(t *testing.T) {
 	if stats.Files != len(want) {
 		t.Fatalf("stats.Files = %d", stats.Files)
 	}
-	if got["main.go"].Mode != 0o755 || got["Dockerfile"].Mode != 0o644 {
+	// Windows has no executable bit, so every file is archived as 0644 there.
+	wantExec := int64(0o755)
+	if runtime.GOOS == "windows" {
+		wantExec = 0o644
+	}
+	if got["main.go"].Mode != wantExec || got["Dockerfile"].Mode != 0o644 {
 		t.Fatalf("modes: main.go %o, Dockerfile %o", got["main.go"].Mode, got["Dockerfile"].Mode)
 	}
 	if got["main.go"].Uid != 0 || got["main.go"].Uname != "" {
