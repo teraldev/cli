@@ -115,11 +115,11 @@ go test ./...
 go run ./cmd/teral --help
 ```
 
-The API client in `internal/api` is generated from the platform's OpenAPI
-spec. To update it, copy `svc/api/openapi/openapi-generated.yaml` and
-`overlay.yaml` from the platform repo into `internal/api/` (as `openapi.yaml`)
-and run `go generate ./internal/api`. The `teral.toml` schema in
-`internal/schema` comes from `pkg/teralconfig/schema.json`.
+The API client in `internal/api` is generated from Teral's OpenAPI spec. The source files required for regeneration are maintained in the **private Teral repository** and are not included in this repository.
+
+To update the client, copy `svc/api/openapi/openapi-generated.yaml` and `overlay.yaml` from the Teral repository into `internal/api/` (as `openapi.yaml`) and run `go generate ./internal/api`.
+
+The `teral.toml` schema in `internal/schema` is generated from `pkg/teralconfig/schema.json`, which is also maintained in the private repository.
 
 Releases: push a `v*` tag; GoReleaser publishes binaries, the Homebrew tap,
 and the Scoop bucket.
