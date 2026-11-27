@@ -75,6 +75,11 @@ fails with the flag to pass.
 | `teral run -- <cmd>` | Run a local command with the app's variables |
 | `teral open` | Open the linked app in the dashboard |
 | `teral projects` / `apps` / `domains` / `keys` / `sessions` | Manage resources |
+| `teral db list` / `create` / `get` / `resize` / `delete` / `sizes` | Managed Postgres databases (`--wait` follows provisioning) |
+| `teral db credentials` / `rotate` / `connect` | Print the connection URL, rotate the password, open `psql` (`--tunnel` to go through a tunnel) |
+| `teral db tunnel` | Forward a local port to a database, authenticated with your Teral sign-in |
+| `teral db link` / `unlink` | Put a database's URL into an app environment's variables |
+| `teral db backups` / `backup` / `backup-schedule` / `restore` | Backups and point-in-time restore into a new database |
 | `teral config init` / `validate` | Create and check `teral.toml` |
 
 Every command takes `--project/-p`, `--app/-a`, `--env/-e`, `--workspace/-w`,

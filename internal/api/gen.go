@@ -35,6 +35,117 @@ func (e AppSourceType) Valid() bool {
 	}
 }
 
+// Defines values for DatabaseBackupKind.
+const (
+	DatabaseBackupKindManual    DatabaseBackupKind = "manual"
+	DatabaseBackupKindScheduled DatabaseBackupKind = "scheduled"
+)
+
+// Valid indicates whether the value is a known member of the DatabaseBackupKind enum.
+func (e DatabaseBackupKind) Valid() bool {
+	switch e {
+	case DatabaseBackupKindManual:
+		return true
+	case DatabaseBackupKindScheduled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DatabaseBackupStatus.
+const (
+	DatabaseBackupStatusCompleted DatabaseBackupStatus = "completed"
+	DatabaseBackupStatusFailed    DatabaseBackupStatus = "failed"
+	DatabaseBackupStatusPending   DatabaseBackupStatus = "pending"
+	DatabaseBackupStatusRunning   DatabaseBackupStatus = "running"
+)
+
+// Valid indicates whether the value is a known member of the DatabaseBackupStatus enum.
+func (e DatabaseBackupStatus) Valid() bool {
+	switch e {
+	case DatabaseBackupStatusCompleted:
+		return true
+	case DatabaseBackupStatusFailed:
+		return true
+	case DatabaseBackupStatusPending:
+		return true
+	case DatabaseBackupStatusRunning:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DatabaseEngine.
+const (
+	DatabaseEngineMysql    DatabaseEngine = "mysql"
+	DatabaseEnginePostgres DatabaseEngine = "postgres"
+)
+
+// Valid indicates whether the value is a known member of the DatabaseEngine enum.
+func (e DatabaseEngine) Valid() bool {
+	switch e {
+	case DatabaseEngineMysql:
+		return true
+	case DatabaseEnginePostgres:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DatabaseSizeMinPlan.
+const (
+	DatabaseSizeMinPlanBusiness DatabaseSizeMinPlan = "business"
+	DatabaseSizeMinPlanFree     DatabaseSizeMinPlan = "free"
+	DatabaseSizeMinPlanPro      DatabaseSizeMinPlan = "pro"
+	DatabaseSizeMinPlanStarter  DatabaseSizeMinPlan = "starter"
+)
+
+// Valid indicates whether the value is a known member of the DatabaseSizeMinPlan enum.
+func (e DatabaseSizeMinPlan) Valid() bool {
+	switch e {
+	case DatabaseSizeMinPlanBusiness:
+		return true
+	case DatabaseSizeMinPlanFree:
+		return true
+	case DatabaseSizeMinPlanPro:
+		return true
+	case DatabaseSizeMinPlanStarter:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DatabaseStatus.
+const (
+	DatabaseStatusDeleting     DatabaseStatus = "deleting"
+	DatabaseStatusFailed       DatabaseStatus = "failed"
+	DatabaseStatusProvisioning DatabaseStatus = "provisioning"
+	DatabaseStatusReady        DatabaseStatus = "ready"
+	DatabaseStatusUpdating     DatabaseStatus = "updating"
+)
+
+// Valid indicates whether the value is a known member of the DatabaseStatus enum.
+func (e DatabaseStatus) Valid() bool {
+	switch e {
+	case DatabaseStatusDeleting:
+		return true
+	case DatabaseStatusFailed:
+		return true
+	case DatabaseStatusProvisioning:
+		return true
+	case DatabaseStatusReady:
+		return true
+	case DatabaseStatusUpdating:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DeploymentAction.
 const (
 	DeploymentActionPromote  DeploymentAction = "promote"
@@ -335,6 +446,48 @@ func (e FirewallPolicyAction) Valid() bool {
 	}
 }
 
+// Defines values for JwtAuthPolicyAlgorithms.
+const (
+	ES256 JwtAuthPolicyAlgorithms = "ES256"
+	ES384 JwtAuthPolicyAlgorithms = "ES384"
+	ES512 JwtAuthPolicyAlgorithms = "ES512"
+	EdDSA JwtAuthPolicyAlgorithms = "EdDSA"
+	PS256 JwtAuthPolicyAlgorithms = "PS256"
+	PS384 JwtAuthPolicyAlgorithms = "PS384"
+	PS512 JwtAuthPolicyAlgorithms = "PS512"
+	RS256 JwtAuthPolicyAlgorithms = "RS256"
+	RS384 JwtAuthPolicyAlgorithms = "RS384"
+	RS512 JwtAuthPolicyAlgorithms = "RS512"
+)
+
+// Valid indicates whether the value is a known member of the JwtAuthPolicyAlgorithms enum.
+func (e JwtAuthPolicyAlgorithms) Valid() bool {
+	switch e {
+	case ES256:
+		return true
+	case ES384:
+		return true
+	case ES512:
+		return true
+	case EdDSA:
+		return true
+	case PS256:
+		return true
+	case PS384:
+		return true
+	case PS512:
+		return true
+	case RS256:
+		return true
+	case RS384:
+		return true
+	case RS512:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for MethodMatchMethods.
 const (
 	MethodMatchMethodsDELETE  MethodMatchMethods = "DELETE"
@@ -362,6 +515,33 @@ func (e MethodMatchMethods) Valid() bool {
 	case MethodMatchMethodsPOST:
 		return true
 	case MethodMatchMethodsPUT:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RedirectPolicyStatusCode.
+const (
+	N301 RedirectPolicyStatusCode = 301
+	N302 RedirectPolicyStatusCode = 302
+	N303 RedirectPolicyStatusCode = 303
+	N307 RedirectPolicyStatusCode = 307
+	N308 RedirectPolicyStatusCode = 308
+)
+
+// Valid indicates whether the value is a known member of the RedirectPolicyStatusCode enum.
+func (e RedirectPolicyStatusCode) Valid() bool {
+	switch e {
+	case N301:
+		return true
+	case N302:
+		return true
+	case N303:
+		return true
+	case N307:
+		return true
+	case N308:
 		return true
 	default:
 		return false
@@ -720,6 +900,9 @@ type AppOCI struct {
 	Image string `json:"image"`
 }
 
+// AuthenticatedSubjectKey Rate limit by the subject of the principal from an earlier `jwtAuth` policy.
+type AuthenticatedSubjectKey = map[string]interface{}
+
 // BadRequestErrorDetails Extended error details specifically for bad request (400) errors. This builds on the BaseError structure by adding an array of individual validation errors, making it easy to identify and fix multiple issues at once.
 type BadRequestErrorDetails struct {
 	// Detail A human-readable explanation specific to this occurrence of the problem. This provides detailed information about what went wrong and potential remediation steps. The message is intended to be helpful for developers troubleshooting the issue.
@@ -862,6 +1045,347 @@ type ConflictErrorResponse struct {
 	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
 	Meta Meta `json:"meta"`
 }
+
+// CustomResponsePolicy Answers matching requests with a fixed response instead of forwarding
+// them. Useful for maintenance pages, `robots.txt` on previews, or
+// `/.well-known/` files.
+//
+// Example: {"body":"\u003ch1\u003eDown for maintenance\u003c/h1\u003e","contentType":"text/html; charset=utf-8","statusCode":503}
+type CustomResponsePolicy struct {
+	// Body Response body, at most 64 KiB.
+	Body *string `json:"body,omitempty"`
+
+	// ContentType Content-Type header. Defaults to `text/plain; charset=utf-8`.
+	ContentType *string `json:"contentType,omitempty"`
+
+	// StatusCode Response status. Defaults to 200.
+	StatusCode *int `json:"statusCode,omitempty"`
+}
+
+// Database A managed database. The password is never part of this object; read it with `databases.getCredentials`.
+type Database struct {
+	// BackupHour The UTC hour of the daily backup. Change it with `databases.updateBackupSchedule`. Changes
+	// are archived continuously in between, see `pointInTimeRecovery`.
+	//
+	//
+	// Example: 3
+	BackupHour int32 `json:"backupHour"`
+
+	// BackupRetentionDays How many days of backups the database keeps, set by the workspace's plan.
+	//
+	// Example: 7
+	BackupRetentionDays int32 `json:"backupRetentionDays"`
+
+	// CreatedAt Unix timestamp in milliseconds when the database was created.
+	//
+	// Example: 1704067200000
+	CreatedAt int64 `json:"createdAt"`
+
+	// Database The name of the database to connect to on the server.
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// EarliestRestoreTime Unix timestamp in milliseconds of the oldest point the database can be restored to.
+	// Omitted until its first backup completed.
+	//
+	//
+	// Example: 1704078000000
+	EarliestRestoreTime *int64 `json:"earliestRestoreTime,omitempty"`
+
+	// Engine The database engine. `postgres` is available today; `mysql` is announced and
+	// listed by `databases.listOptions` with `available: false` until it can be created.
+	//
+	//
+	// Example: postgres
+	Engine DatabaseEngine `json:"engine"`
+
+	// Host The hostname clients connect to. Omitted until the database is placed on a server.
+	//
+	// Example: pg-a1b2c3d4.db.teral.dev
+	Host *string `json:"host,omitempty"`
+
+	// Id The database's id.
+	//
+	// Example: db_1234abcd
+	Id string `json:"id"`
+
+	// Instances How many instances run the database: one primary plus replicas. Each instance has the
+	// resources of `size`. Replicas take over when the primary fails, and resizes switch over to
+	// an updated replica.
+	//
+	//
+	// Example: 1
+	Instances int32 `json:"instances"`
+
+	// LatestBackupAt Unix timestamp in milliseconds when the latest backup completed. Omitted until then.
+	//
+	// Example: 1704164400000
+	LatestBackupAt *int64 `json:"latestBackupAt,omitempty"`
+
+	// Links The app environments that hold the database's connection URL. Always empty in the
+	// responses of `databases.createDatabase`, `databases.updateDatabase` and
+	// `databases.rotatePassword`; read it with `databases.getDatabase`.
+	Links []DatabaseLink `json:"links"`
+
+	// Name The database's name, unique within its project.
+	//
+	// Example: main
+	Name string `json:"name"`
+
+	// PointInTimeRecovery Whether the workspace's plan allows restoring the database to any second within its
+	// retention with `databases.restoreDatabase`. Without it, a restore goes to a backup or to
+	// the latest state.
+	//
+	//
+	// Example: false
+	PointInTimeRecovery bool `json:"pointInTimeRecovery"`
+
+	// Port The port clients connect to.
+	//
+	// Example: 5432
+	Port int32 `json:"port"`
+
+	// ProjectId The project the database belongs to. It can only be linked to apps in this project.
+	//
+	// Example: proj_1234abcd
+	ProjectId string `json:"projectId"`
+
+	// ReadyAt Unix timestamp in milliseconds when the database first became ready. Omitted until then.
+	//
+	// Example: 1704067260000
+	ReadyAt *int64 `json:"readyAt,omitempty"`
+
+	// Region The region of the server that hosts the database. Omitted until it is placed.
+	//
+	// Example: eu-central-1
+	Region *string `json:"region,omitempty"`
+
+	// Size The size slug. `databases.listOptions` lists the sizes and their resources.
+	//
+	// Example: db-nano
+	Size string `json:"size"`
+
+	// Status The lifecycle status of the database.
+	//
+	// - `provisioning`: the database is being created. Its password and connection URL are not available yet.
+	// - `ready`: the database accepts connections.
+	// - `updating`: a change, such as a password rotation, is being applied. The database keeps serving.
+	// - `failed`: provisioning or the last change failed. `statusMessage` says why.
+	// - `deleting`: the database and its data are being removed.
+	//
+	//
+	// Example: ready
+	Status DatabaseStatus `json:"status"`
+
+	// StatusMessage Why the database failed, or what the current change is doing. Omitted when there is nothing to report.
+	//
+	// Example: waiting for storage
+	StatusMessage *string `json:"statusMessage,omitempty"`
+
+	// StorageUsedMib The storage the database uses, in MiB. Omitted until it is known.
+	//
+	// Example: 42
+	StorageUsedMib *int64 `json:"storageUsedMib,omitempty"`
+
+	// Username The user that owns the database. Read its password with `databases.getCredentials`.
+	//
+	// Example: main_owner
+	Username string `json:"username"`
+
+	// Version The engine's major version.
+	//
+	// Example: 17
+	Version string `json:"version"`
+}
+
+// DatabaseBackup A base backup of a managed database. Together with the changes archived continuously in
+// between, backups are what `databases.restoreDatabase` restores from. They are kept for the
+// database's `backupRetentionDays`.
+type DatabaseBackup struct {
+	// CreatedAt Unix timestamp in milliseconds when the backup was requested or scheduled.
+	//
+	// Example: 1704078000000
+	CreatedAt int64 `json:"createdAt"`
+
+	// Error Why the backup failed. Omitted otherwise.
+	//
+	// Example: could not reach the object storage
+	Error *string `json:"error,omitempty"`
+
+	// Id The backup's id. Pass it to `databases.restoreDatabase` as `backupId`.
+	//
+	// Example: dbb_1234abcd
+	Id string `json:"id"`
+
+	// Kind How the backup was started.
+	//
+	// - `scheduled`: the daily backup, at the database's `backupHour`.
+	// - `manual`: taken with `databases.createBackup`.
+	//
+	//
+	// Example: scheduled
+	Kind DatabaseBackupKind `json:"kind"`
+
+	// StartedAt Unix timestamp in milliseconds when the backup started. Omitted until then.
+	//
+	// Example: 1704078000000
+	StartedAt *int64 `json:"startedAt,omitempty"`
+
+	// Status The backup's progress. Only completed backups can be restored.
+	//
+	// - `pending`: waiting for the database's server to start it.
+	// - `running`: the backup is being taken.
+	// - `completed`: the backup finished and can be restored.
+	// - `failed`: the backup failed. `error` says why.
+	//
+	//
+	// Example: completed
+	Status DatabaseBackupStatus `json:"status"`
+
+	// StoppedAt Unix timestamp in milliseconds when the backup finished. Omitted until then.
+	//
+	// Example: 1704078090000
+	StoppedAt *int64 `json:"stoppedAt,omitempty"`
+}
+
+// DatabaseBackupKind How the backup was started.
+//
+// - `scheduled`: the daily backup, at the database's `backupHour`.
+// - `manual`: taken with `databases.createBackup`.
+//
+// Example: scheduled
+type DatabaseBackupKind string
+
+// DatabaseBackupStatus The backup's progress. Only completed backups can be restored.
+//
+// - `pending`: waiting for the database's server to start it.
+// - `running`: the backup is being taken.
+// - `completed`: the backup finished and can be restored.
+// - `failed`: the backup failed. `error` says why.
+//
+// Example: completed
+type DatabaseBackupStatus string
+
+// DatabaseEngine The database engine. `postgres` is available today; `mysql` is announced and
+// listed by `databases.listOptions` with `available: false` until it can be created.
+//
+// Example: postgres
+type DatabaseEngine string
+
+// DatabaseEngineOption An engine a managed database can be created with.
+type DatabaseEngineOption struct {
+	// Available Whether databases of this engine can be created yet.
+	//
+	// Example: true
+	Available bool `json:"available"`
+
+	// DefaultVersion The version `databases.createDatabase` uses when none is given.
+	//
+	// Example: 17
+	DefaultVersion string `json:"defaultVersion"`
+
+	// Engine The database engine. `postgres` is available today; `mysql` is announced and
+	// listed by `databases.listOptions` with `available: false` until it can be created.
+	//
+	//
+	// Example: postgres
+	Engine DatabaseEngine `json:"engine"`
+
+	// Versions The major versions offered, newest first.
+	//
+	// Example: ["17","16"]
+	Versions []string `json:"versions"`
+}
+
+// DatabaseLink A link keeps a database's connection URL in an environment variable of an app environment.
+// Teral rewrites the variable when the password rotates; linked apps pick up the new value on
+// their next deployment.
+type DatabaseLink struct {
+	// AppId The app whose environment holds the connection URL.
+	//
+	// Example: app_1234abcd
+	AppId string `json:"appId"`
+
+	// CreatedAt Unix timestamp in milliseconds when the link was created.
+	//
+	// Example: 1704067200000
+	CreatedAt int64 `json:"createdAt"`
+
+	// EnvKey The environment variable Teral keeps set to the database's connection URL.
+	//
+	// Example: DATABASE_URL
+	EnvKey string `json:"envKey"`
+
+	// EnvironmentId The environment that holds the connection URL.
+	//
+	// Example: env_1234abcd
+	EnvironmentId string `json:"environmentId"`
+
+	// Id The link's id. Pass it to `databases.unlinkDatabase`.
+	//
+	// Example: dbl_1234abcd
+	Id string `json:"id"`
+}
+
+// DatabaseSize A fixed managed database size and whether the workspace's plan allows it.
+type DatabaseSize struct {
+	// Allowed Whether the workspace may create this size on its current plan.
+	//
+	// Example: true
+	Allowed bool `json:"allowed"`
+
+	// CpuMillicores CPU, in thousandths of a core.
+	//
+	// Example: 250
+	CpuMillicores int32 `json:"cpuMillicores"`
+
+	// DisplayName The size's name for display.
+	//
+	// Example: Nano
+	DisplayName string `json:"displayName"`
+
+	// MaxConnections The most concurrent connections the database accepts.
+	//
+	// Example: 25
+	MaxConnections int32 `json:"maxConnections"`
+
+	// MemoryMib Memory, in MiB.
+	//
+	// Example: 256
+	MemoryMib int32 `json:"memoryMib"`
+
+	// MinPlan The lowest plan that may create this size.
+	//
+	// Example: free
+	MinPlan DatabaseSizeMinPlan `json:"minPlan"`
+
+	// Slug Pass it as `size` to `databases.createDatabase`.
+	//
+	// Example: db-nano
+	Slug string `json:"slug"`
+
+	// StorageMib Storage, in MiB.
+	//
+	// Example: 1024
+	StorageMib int32 `json:"storageMib"`
+}
+
+// DatabaseSizeMinPlan The lowest plan that may create this size.
+//
+// Example: free
+type DatabaseSizeMinPlan string
+
+// DatabaseStatus The lifecycle status of the database.
+//
+// - `provisioning`: the database is being created. Its password and connection URL are not available yet.
+// - `ready`: the database accepts connections.
+// - `updating`: a change, such as a password rotation, is being applied. The database keeps serving.
+// - `failed`: provisioning or the last change failed. `statusMessage` says why.
+// - `deleting`: the database and its data are being removed.
+//
+// Example: ready
+type DatabaseStatus string
 
 // Deployment defines model for Deployment.
 type Deployment struct {
@@ -1736,6 +2260,23 @@ type ForbiddenErrorResponse struct {
 	Meta Meta `json:"meta"`
 }
 
+// HeaderKey Rate limit by the value of a request header.
+type HeaderKey struct {
+	Name string `json:"name"`
+}
+
+// HostMatch Matches the hostname the request was sent to, without the port. The
+// hostname is lowercased before the comparison, so write the value in
+// lowercase. Useful when several domains route to the same environment.
+//
+// Example: {"host":{"exact":"www.example.com"}}
+type HostMatch struct {
+	// Host String matcher. Exactly one of `exact`, `prefix` or `regex` must be set.
+	//
+	// Example: {"ignoreCase":true,"prefix":"/api/"}
+	Host StringMatch `json:"host"`
+}
+
 // InternalServerErrorResponse Error response when an unexpected error occurs on the server. This indicates a problem with Teral's systems rather than your request.
 //
 // When you encounter this error:
@@ -1749,6 +2290,56 @@ type InternalServerErrorResponse struct {
 	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
 	Meta Meta `json:"meta"`
 }
+
+// JwtAuthPolicy Requires a valid `Authorization: Bearer` JSON Web Token issued by your
+// identity provider. Missing or invalid tokens get 401. On success the
+// decoded token is forwarded to your app as JSON in the
+// `X-Teral-Principal` header, and later policies such as rate limits can
+// key on its subject.
+//
+// Example: {"algorithms":["RS256"],"audiences":["https://api.example.com"],"oidcIssuer":"https://example.auth0.com/"}
+type JwtAuthPolicy struct {
+	// Algorithms Accepted signing algorithms. Defaults to `[RS256]`.
+	Algorithms *[]JwtAuthPolicyAlgorithms `json:"algorithms,omitempty"`
+
+	// AllowAnonymous Let requests without a bearer token through without a principal.
+	// Requests with an invalid token are still rejected.
+	AllowAnonymous *bool `json:"allowAnonymous,omitempty"`
+
+	// Audiences The token's `aud` claim must contain at least one of these.
+	Audiences *[]string `json:"audiences,omitempty"`
+
+	// ClockSkewMs Tolerance for `exp` and `nbf`, in milliseconds.
+	ClockSkewMs *int64 `json:"clockSkewMs,omitempty"`
+
+	// Issuer Required `iss` claim. Omit to accept any issuer.
+	Issuer *string `json:"issuer,omitempty"`
+
+	// JwksCacheMs How long to cache the key set. Defaults to one hour.
+	JwksCacheMs *int64 `json:"jwksCacheMs,omitempty"`
+
+	// JwksUri HTTPS URL of a JSON Web Key Set. Set exactly one of `jwksUri`,
+	// `oidcIssuer` or `publicKeyPem`.
+	//
+	// Example: https://example.auth0.com/.well-known/jwks.json
+	JwksUri *string `json:"jwksUri,omitempty"`
+
+	// OidcIssuer HTTPS URL of an OpenID Connect issuer. The gateway reads
+	// `/.well-known/openid-configuration` to find the key set, and requires
+	// the token's `iss` claim to match unless `issuer` is set.
+	//
+	// Example: https://example.auth0.com/
+	OidcIssuer *string `json:"oidcIssuer,omitempty"`
+
+	// PublicKeyPem PEM-encoded RSA, EC or Ed25519 public key (PKIX).
+	PublicKeyPem *string `json:"publicKeyPem,omitempty"`
+
+	// SubjectClaim Claim used as the principal's subject. Defaults to `sub`.
+	SubjectClaim *string `json:"subjectClaim,omitempty"`
+}
+
+// JwtAuthPolicyAlgorithms defines model for JwtAuthPolicy.Algorithms.
+type JwtAuthPolicyAlgorithms string
 
 // LoggingPolicy Adds request data to the log entries of matching requests. The gateway
 // always records a basic log entry for every request: method, host, path,
@@ -1782,13 +2373,20 @@ type LoggingPolicy struct {
 }
 
 // MatchExpr A single request match expression. Exactly one of `path`, `method`,
-// `header`, `queryParam` or `remoteIp` must be set.
+// `header`, `queryParam`, `remoteIp` or `host` must be set.
 //
 // Example: {"path":{"path":{"prefix":"/api/"}}}
 type MatchExpr struct {
 	// Header Matches a named request field (header or query parameter). Exactly one of
 	// `present` or `value` must be set.
 	Header *FieldMatch `json:"header,omitempty"`
+
+	// Host Matches the hostname the request was sent to, without the port. The
+	// hostname is lowercased before the comparison, so write the value in
+	// lowercase. Useful when several domains route to the same environment.
+	//
+	// Example: {"host":{"exact":"www.example.com"}}
+	Host *HostMatch `json:"host,omitempty"`
 
 	// Method Matches when the request method is one of the listed methods.
 	Method *MethodMatch `json:"method,omitempty"`
@@ -1858,6 +2456,28 @@ type Pagination struct {
 	HasMore bool `json:"hasMore"`
 }
 
+// PasswordProtectionPolicy Asks visitors for a shared password before they can reach matching
+// requests. After the correct password the gateway sets a signed cookie
+// for the hostname. Changing the password signs every visitor out.
+//
+// Example: {"password":"correct-horse","sessionTtlMs":604800000}
+type PasswordProtectionPolicy struct {
+	// Password New password. The server stores only a bcrypt hash. Set exactly one
+	// of `password` or `passwordHash`.
+	Password *string `json:"password,omitempty"`
+
+	// PasswordHash The stored bcrypt hash, as returned by list endpoints. Send it back
+	// unchanged to keep the current password when replacing the policy
+	// list.
+	PasswordHash *string `json:"passwordHash,omitempty"`
+
+	// SessionTtlMs How long a visitor stays signed in. Defaults to 7 days.
+	SessionTtlMs *int64 `json:"sessionTtlMs,omitempty"`
+}
+
+// PathKey Rate limit by the request path.
+type PathKey = map[string]interface{}
+
 // PathMatch Matches on the request path.
 type PathMatch struct {
 	// Path String matcher. Exactly one of `exact`, `prefix` or `regex` must be set.
@@ -1866,12 +2486,22 @@ type PathMatch struct {
 	Path StringMatch `json:"path"`
 }
 
-// Policy A gateway policy. Exactly one of `firewall`,
-// or `logging` must be set. The server generates an id for every
+// Policy A gateway policy. Exactly one of `firewall`, `logging`, `redirect`,
+// `customResponse`, `rateLimit`, `jwtAuth` or `passwordProtection` must
+// be set. Policies run in list order; a policy that answers the request
+// (deny, redirect, custom response, exceeded rate limit, rejected token,
+// password prompt) stops evaluation. The server generates an id for every
 // policy it stores.
 //
 // Example: {"enabled":true,"firewall":{"action":"ACTION_DENY"},"match":[{"path":{"path":{"prefix":"/internal/"}}}],"name":"Block internal paths"}
 type Policy struct {
+	// CustomResponse Answers matching requests with a fixed response instead of forwarding
+	// them. Useful for maintenance pages, `robots.txt` on previews, or
+	// `/.well-known/` files.
+	//
+	// Example: {"body":"\u003ch1\u003eDown for maintenance\u003c/h1\u003e","contentType":"text/html; charset=utf-8","statusCode":503}
+	CustomResponse *CustomResponsePolicy `json:"customResponse,omitempty"`
+
 	// Enabled Disabled policies are stored but skipped during evaluation.
 	Enabled bool `json:"enabled"`
 
@@ -1879,6 +2509,15 @@ type Policy struct {
 	//
 	// Example: {"action":"ACTION_DENY"}
 	Firewall *FirewallPolicy `json:"firewall,omitempty"`
+
+	// JwtAuth Requires a valid `Authorization: Bearer` JSON Web Token issued by your
+	// identity provider. Missing or invalid tokens get 401. On success the
+	// decoded token is forwarded to your app as JSON in the
+	// `X-Teral-Principal` header, and later policies such as rate limits can
+	// key on its subject.
+	//
+	// Example: {"algorithms":["RS256"],"audiences":["https://api.example.com"],"oidcIssuer":"https://example.auth0.com/"}
+	JwtAuth *JwtAuthPolicy `json:"jwtAuth,omitempty"`
 
 	// Logging Adds request data to the log entries of matching requests. The gateway
 	// always records a basic log entry for every request: method, host, path,
@@ -1899,13 +2538,43 @@ type Policy struct {
 
 	// Name Human-readable name shown in the dashboard.
 	Name string `json:"name"`
+
+	// PasswordProtection Asks visitors for a shared password before they can reach matching
+	// requests. After the correct password the gateway sets a signed cookie
+	// for the hostname. Changing the password signs every visitor out.
+	//
+	// Example: {"password":"correct-horse","sessionTtlMs":604800000}
+	PasswordProtection *PasswordProtectionPolicy `json:"passwordProtection,omitempty"`
+
+	// RateLimit Limits how many matching requests each client can make per window.
+	// Requests over the limit get 429 Too Many Requests with a `Retry-After`
+	// header. Counters are shared across all gateway instances and regions,
+	// and are reset when the environment's policy list is replaced.
+	//
+	// Example: {"identifiers":[{"remoteIp":{}}],"limit":100,"windowMs":60000}
+	RateLimit *RatelimitPolicy `json:"rateLimit,omitempty"`
+
+	// Redirect Redirects matching requests instead of forwarding them. A redirect that
+	// would point at the requested URL itself is skipped, so a broad matcher
+	// cannot cause a redirect loop.
+	//
+	// Example: {"destination":"https://example.com/docs/${rest}","preserveQuery":true,"statusCode":308}
+	Redirect *RedirectPolicy `json:"redirect,omitempty"`
 }
 
 // PolicyResponse A stored gateway policy as returned by list endpoints. Exactly one of
-// `firewall`, or `logging` is set.
+// `firewall`, `logging`, `redirect`, `customResponse`, `rateLimit`,
+// `jwtAuth` or `passwordProtection` is set.
 //
 // Example: {"enabled":true,"firewall":{"action":"ACTION_DENY"},"id":"pol_2gJbXhAr4","match":[{"path":{"path":{"prefix":"/internal/"}}}],"name":"Block internal paths"}
 type PolicyResponse struct {
+	// CustomResponse Answers matching requests with a fixed response instead of forwarding
+	// them. Useful for maintenance pages, `robots.txt` on previews, or
+	// `/.well-known/` files.
+	//
+	// Example: {"body":"\u003ch1\u003eDown for maintenance\u003c/h1\u003e","contentType":"text/html; charset=utf-8","statusCode":503}
+	CustomResponse *CustomResponsePolicy `json:"customResponse,omitempty"`
+
 	// Enabled Disabled policies are stored but skipped during evaluation.
 	Enabled bool `json:"enabled"`
 
@@ -1918,6 +2587,15 @@ type PolicyResponse struct {
 	//
 	// Example: pol_2gJbXhAr4
 	Id string `json:"id"`
+
+	// JwtAuth Requires a valid `Authorization: Bearer` JSON Web Token issued by your
+	// identity provider. Missing or invalid tokens get 401. On success the
+	// decoded token is forwarded to your app as JSON in the
+	// `X-Teral-Principal` header, and later policies such as rate limits can
+	// key on its subject.
+	//
+	// Example: {"algorithms":["RS256"],"audiences":["https://api.example.com"],"oidcIssuer":"https://example.auth0.com/"}
+	JwtAuth *JwtAuthPolicy `json:"jwtAuth,omitempty"`
 
 	// Logging Adds request data to the log entries of matching requests. The gateway
 	// always records a basic log entry for every request: method, host, path,
@@ -1938,6 +2616,28 @@ type PolicyResponse struct {
 
 	// Name Human-readable name shown in the dashboard.
 	Name string `json:"name"`
+
+	// PasswordProtection Asks visitors for a shared password before they can reach matching
+	// requests. After the correct password the gateway sets a signed cookie
+	// for the hostname. Changing the password signs every visitor out.
+	//
+	// Example: {"password":"correct-horse","sessionTtlMs":604800000}
+	PasswordProtection *PasswordProtectionPolicy `json:"passwordProtection,omitempty"`
+
+	// RateLimit Limits how many matching requests each client can make per window.
+	// Requests over the limit get 429 Too Many Requests with a `Retry-After`
+	// header. Counters are shared across all gateway instances and regions,
+	// and are reset when the environment's policy list is replaced.
+	//
+	// Example: {"identifiers":[{"remoteIp":{}}],"limit":100,"windowMs":60000}
+	RateLimit *RatelimitPolicy `json:"rateLimit,omitempty"`
+
+	// Redirect Redirects matching requests instead of forwarding them. A redirect that
+	// would point at the requested URL itself is skipped, so a broad matcher
+	// cannot cause a redirect loop.
+	//
+	// Example: {"destination":"https://example.com/docs/${rest}","preserveQuery":true,"statusCode":308}
+	Redirect *RedirectPolicy `json:"redirect,omitempty"`
 }
 
 // PreconditionFailedErrorResponse Error response when one or more conditions specified in the request headers are not met. This typically occurs when:
@@ -1952,6 +2652,11 @@ type PreconditionFailedErrorResponse struct {
 
 	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
 	Meta Meta `json:"meta"`
+}
+
+// PrincipalFieldKey Rate limit by a field extracted from the authenticated principal.
+type PrincipalFieldKey struct {
+	Path string `json:"path"`
 }
 
 // Project defines model for Project.
@@ -1995,6 +2700,77 @@ type Project struct {
 	// Example: 1704153600000
 	UpdatedAt int64 `json:"updatedAt,omitempty"`
 }
+
+// RatelimitIdentifier One part of a rate limit counter key. Exactly one of `remoteIp`,
+// `header`, `authenticatedSubject`, `path` or `principalField` must be set.
+//
+// Example: {"remoteIp":{}}
+type RatelimitIdentifier struct {
+	// AuthenticatedSubject Rate limit by the subject of the principal from an earlier `jwtAuth` policy.
+	AuthenticatedSubject *AuthenticatedSubjectKey `json:"authenticatedSubject,omitempty"`
+
+	// Header Rate limit by the value of a request header.
+	Header *HeaderKey `json:"header,omitempty"`
+
+	// Path Rate limit by the request path.
+	Path *PathKey `json:"path,omitempty"`
+
+	// PrincipalField Rate limit by a field extracted from the authenticated principal.
+	PrincipalField *PrincipalFieldKey `json:"principalField,omitempty"`
+
+	// RemoteIp Rate limit by the remote IP.
+	RemoteIp *RemoteIpKey `json:"remoteIp,omitempty"`
+}
+
+// RatelimitPolicy Limits how many matching requests each client can make per window.
+// Requests over the limit get 429 Too Many Requests with a `Retry-After`
+// header. Counters are shared across all gateway instances and regions,
+// and are reset when the environment's policy list is replaced.
+//
+// Example: {"identifiers":[{"remoteIp":{}}],"limit":100,"windowMs":60000}
+type RatelimitPolicy struct {
+	// Identifiers Ordered list of sources that form the counter key. Each unique
+	// combination of resolved values has its own counter. Defaults to
+	// `[remoteIp]`. A source with no value for a request (a missing header,
+	// an anonymous caller) resolves to an empty value, so those requests
+	// share one counter. Example: `[authenticatedSubject, path]` limits each
+	// subject separately on each path.
+	Identifiers *[]RatelimitIdentifier `json:"identifiers,omitempty"`
+
+	// Limit Maximum number of requests per window.
+	Limit int64 `json:"limit"`
+
+	// WindowMs Sliding window length in milliseconds, from 1 second to 1 hour.
+	WindowMs int64 `json:"windowMs"`
+}
+
+// RedirectPolicy Redirects matching requests instead of forwarding them. A redirect that
+// would point at the requested URL itself is skipped, so a broad matcher
+// cannot cause a redirect loop.
+//
+// Example: {"destination":"https://example.com/docs/${rest}","preserveQuery":true,"statusCode":308}
+type RedirectPolicy struct {
+	// Destination Where to send the client: an absolute `http(s)://` URL, or a path
+	// starting with `/` that keeps the request's host. When the policy has a
+	// `path` matcher with a `regex`, its capture groups can be used here:
+	// `$1` or `${1}` for numbered groups and `${name}` for named groups
+	// such as `(?P<name>...)`. Write `$$` for a literal `$`.
+	Destination string `json:"destination"`
+
+	// PreserveQuery Append the request's query string to the destination.
+	PreserveQuery *bool `json:"preserveQuery,omitempty"`
+
+	// StatusCode Redirect status. Defaults to 307 (temporary). Use 308 or 301 for
+	// permanent redirects; browsers cache them.
+	StatusCode *RedirectPolicyStatusCode `json:"statusCode,omitempty"`
+}
+
+// RedirectPolicyStatusCode Redirect status. Defaults to 307 (temporary). Use 308 or 301 for
+// permanent redirects; browsers cache them.
+type RedirectPolicyStatusCode int
+
+// RemoteIpKey Rate limit by the remote IP.
+type RemoteIpKey = map[string]interface{}
 
 // RemoteIpMatch Matches the remote IP against IPv4 or IPv6 CIDR ranges. Exactly one of `in`
 // or `notIn` must be set. Entries are rejected if they have host bits set (such
@@ -2749,6 +3525,503 @@ type V1CliStartDeviceAuthorizationResponseData struct {
 	//
 	// Example: https://app.teral.dev/cli?code=WDJB-MJHT
 	VerificationUriComplete string `json:"verificationUriComplete"`
+}
+
+// V1DatabasesCreateBackupRequestBody defines model for V1DatabasesCreateBackupRequestBody.
+type V1DatabasesCreateBackupRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesCreateBackupResponseBody defines model for V1DatabasesCreateBackupResponseBody.
+type V1DatabasesCreateBackupResponseBody struct {
+	// Data A base backup of a managed database. Together with the changes archived continuously in
+	// between, backups are what `databases.restoreDatabase` restores from. They are kept for the
+	// database's `backupRetentionDays`.
+	Data DatabaseBackup `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesCreateDatabaseRequestBody defines model for V1DatabasesCreateDatabaseRequestBody.
+type V1DatabasesCreateDatabaseRequestBody struct {
+	// Engine The engine. Defaults to `postgres`.
+	Engine *DatabaseEngine `json:"engine,omitempty"`
+
+	// Instances How many instances to run: one primary plus replicas. Defaults to 1. The plan caps it,
+	// see `maxInstances` in `databases.listOptions`.
+	//
+	//
+	// Example: 1
+	Instances *int32 `json:"instances,omitempty"`
+
+	// Name The database's name: 1 to 63 lowercase letters, digits or dashes, not starting or ending
+	// with a dash. Unique within the project.
+	//
+	//
+	// Example: main
+	Name string `json:"name"`
+
+	// Project The id or slug of the project the database belongs to.
+	Project ResourceIdentifier `json:"project"`
+
+	// Size The size slug from `databases.listOptions`. Defaults to the smallest size, `db-nano`.
+	//
+	// Example: db-nano
+	Size *string `json:"size,omitempty"`
+
+	// Version The engine's major version. Defaults to the engine's default version from `databases.listOptions`.
+	//
+	// Example: 17
+	Version *string `json:"version,omitempty"`
+}
+
+// V1DatabasesCreateDatabaseResponseBody defines model for V1DatabasesCreateDatabaseResponseBody.
+type V1DatabasesCreateDatabaseResponseBody struct {
+	// Data A managed database. The password is never part of this object; read it with `databases.getCredentials`.
+	Data Database `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesCreateTunnelRequestBody defines model for V1DatabasesCreateTunnelRequestBody.
+type V1DatabasesCreateTunnelRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesCreateTunnelResponseBody defines model for V1DatabasesCreateTunnelResponseBody.
+type V1DatabasesCreateTunnelResponseBody struct {
+	// Data A short-lived token to open tunnels to a database through its server's proxy.
+	Data V1DatabasesCreateTunnelResponseData `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesCreateTunnelResponseData A short-lived token to open tunnels to a database through its server's proxy.
+type V1DatabasesCreateTunnelResponseData struct {
+	// ExpiresAt Unix timestamp in milliseconds after which the token opens no new connections.
+	// Connections opened before stay up.
+	//
+	//
+	// Example: 1704068100000
+	ExpiresAt int64 `json:"expiresAt"`
+
+	// Host The database's host name, used for the connection and as the TLS server name.
+	//
+	// Example: pg-a1b2c3d4.db.teral.dev
+	Host string `json:"host"`
+
+	// Port The port of the database proxy.
+	//
+	// Example: 5432
+	Port int32 `json:"port"`
+
+	// Token The signed tunnel token. After a TLS handshake with `host` (as the server name) and the
+	// ALPN protocol `teral-tunnel`, send `TERAL-TUNNEL <token>` and a newline; the database
+	// proxy answers `OK` or `ERR <reason>`, each on its own line. After `OK` the connection
+	// carries the Postgres protocol without its own TLS. Treat the token as a secret.
+	//
+	//
+	// Example: your-tunnel-token
+	Token string `json:"token"`
+}
+
+// V1DatabasesDeleteDatabaseRequestBody defines model for V1DatabasesDeleteDatabaseRequestBody.
+type V1DatabasesDeleteDatabaseRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesDeleteDatabaseResponseBody defines model for V1DatabasesDeleteDatabaseResponseBody.
+type V1DatabasesDeleteDatabaseResponseBody struct {
+	// Data Empty response object by design. A successful response indicates this operation was successfully executed.
+	Data EmptyResponse `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesGetCredentialsRequestBody defines model for V1DatabasesGetCredentialsRequestBody.
+type V1DatabasesGetCredentialsRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesGetCredentialsResponseBody defines model for V1DatabasesGetCredentialsResponseBody.
+type V1DatabasesGetCredentialsResponseBody struct {
+	// Data Everything a client needs to connect. Treat it as a secret.
+	Data V1DatabasesGetCredentialsResponseData `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesGetCredentialsResponseData Everything a client needs to connect. Treat it as a secret.
+type V1DatabasesGetCredentialsResponseData struct {
+	// Database The database to connect to.
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Engine The database engine. `postgres` is available today; `mysql` is announced and
+	// listed by `databases.listOptions` with `available: false` until it can be created.
+	//
+	//
+	// Example: postgres
+	Engine DatabaseEngine `json:"engine"`
+
+	// Host The hostname to connect to.
+	//
+	// Example: pg-a1b2c3d4.db.teral.dev
+	Host string `json:"host"`
+
+	// Password The user's current password.
+	//
+	// Example: your-database-password
+	Password string `json:"password"`
+
+	// Port The port to connect to.
+	//
+	// Example: 5432
+	Port int32 `json:"port"`
+
+	// Url The connection URL most libraries and ORMs accept. TLS is required, so the URL asks for it
+	// (`sslmode=require` for Postgres, `ssl-mode=REQUIRED` for MySQL).
+	//
+	//
+	// Example: postgresql://main_owner:your-database-password@pg-a1b2c3d4.db.teral.dev:5432/main?sslmode=require
+	Url string `json:"url"`
+
+	// Username The user to connect as.
+	//
+	// Example: main_owner
+	Username string `json:"username"`
+}
+
+// V1DatabasesGetDatabaseRequestBody defines model for V1DatabasesGetDatabaseRequestBody.
+type V1DatabasesGetDatabaseRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesGetDatabaseResponseBody defines model for V1DatabasesGetDatabaseResponseBody.
+type V1DatabasesGetDatabaseResponseBody struct {
+	// Data A managed database. The password is never part of this object; read it with `databases.getCredentials`.
+	Data Database `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesLinkDatabaseRequestBody defines model for V1DatabasesLinkDatabaseRequestBody.
+type V1DatabasesLinkDatabaseRequestBody struct {
+	// App The id or slug of the app to link. It must be in the database's project.
+	App ResourceIdentifier `json:"app"`
+
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// EnvKey The environment variable that holds the connection URL. Defaults to `DATABASE_URL`.
+	//
+	// Example: DATABASE_URL
+	EnvKey *string `json:"envKey,omitempty"`
+
+	// Environment The id or slug of the app's environment that receives the variable.
+	Environment ResourceIdentifier `json:"environment"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesLinkDatabaseResponseBody defines model for V1DatabasesLinkDatabaseResponseBody.
+type V1DatabasesLinkDatabaseResponseBody struct {
+	// Data A link keeps a database's connection URL in an environment variable of an app environment.
+	// Teral rewrites the variable when the password rotates; linked apps pick up the new value on
+	// their next deployment.
+	Data DatabaseLink `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesListBackupsRequestBody defines model for V1DatabasesListBackupsRequestBody.
+type V1DatabasesListBackupsRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesListBackupsResponseBody defines model for V1DatabasesListBackupsResponseBody.
+type V1DatabasesListBackupsResponseBody struct {
+	// Data The database's backups within its retention, newest first.
+	Data []DatabaseBackup `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesListDatabasesRequestBody defines model for V1DatabasesListDatabasesRequestBody.
+type V1DatabasesListDatabasesRequestBody struct {
+	// Project Only list the databases of this project, by id or slug. Omit to list every project's databases.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesListDatabasesResponseBody defines model for V1DatabasesListDatabasesResponseBody.
+type V1DatabasesListDatabasesResponseBody struct {
+	// Data The databases the root key may read. A workspace holds few databases, so the list is not paginated.
+	Data []Database `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesListOptionsRequestBody Takes no parameters. The options are those of the workspace the root key belongs to.
+type V1DatabasesListOptionsRequestBody = map[string]interface{}
+
+// V1DatabasesListOptionsResponseBody defines model for V1DatabasesListOptionsResponseBody.
+type V1DatabasesListOptionsResponseBody struct {
+	Data V1DatabasesListOptionsResponseData `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesListOptionsResponseData defines model for V1DatabasesListOptionsResponseData.
+type V1DatabasesListOptionsResponseData struct {
+	// DatabaseCount How many databases the workspace has now.
+	//
+	// Example: 0
+	DatabaseCount int32 `json:"databaseCount"`
+
+	// Engines The engines, in display order.
+	Engines []DatabaseEngineOption `json:"engines"`
+
+	// MaxDatabases How many databases the plan includes per workspace.
+	//
+	// Example: 1
+	MaxDatabases int32 `json:"maxDatabases"`
+
+	// MaxInstances How many instances (one primary plus replicas) the plan allows per database.
+	//
+	// Example: 1
+	MaxInstances int32 `json:"maxInstances"`
+
+	// Plan The workspace's plan. `free` stands for a workspace without a paid plan.
+	//
+	// Example: free
+	Plan string `json:"plan"`
+
+	// Sizes The fixed sizes, smallest first.
+	Sizes []DatabaseSize `json:"sizes"`
+}
+
+// V1DatabasesRestoreDatabaseRequestBody defines model for V1DatabasesRestoreDatabaseRequestBody.
+type V1DatabasesRestoreDatabaseRequestBody struct {
+	// BackupId Restore to the end of this backup of the source, an id from `databases.listBackups`. It
+	// must be completed.
+	//
+	//
+	// Example: dbb_1234abcd
+	BackupId *string `json:"backupId,omitempty"`
+
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Instances How many instances run the new database. Defaults to the source's instance count.
+	//
+	//
+	// Example: 1
+	Instances *int32 `json:"instances,omitempty"`
+
+	// Name The new database's name: 1 to 63 lowercase letters, digits or dashes, not starting or
+	// ending with a dash. Unique within the project.
+	//
+	//
+	// Example: main-restored
+	Name string `json:"name"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+
+	// Size The new database's size slug from `databases.listOptions`. Defaults to the source's size.
+	// It needs at least as much storage as the source's.
+	//
+	//
+	// Example: db-small
+	Size *string `json:"size,omitempty"`
+
+	// TargetTime Restore to this point in time, a Unix timestamp in milliseconds. Needs
+	// `pointInTimeRecovery` on the source. Pass at most one of `targetTime` and `backupId`.
+	//
+	//
+	// Example: 1704164400000
+	TargetTime *int64 `json:"targetTime,omitempty"`
+}
+
+// V1DatabasesRestoreDatabaseResponseBody defines model for V1DatabasesRestoreDatabaseResponseBody.
+type V1DatabasesRestoreDatabaseResponseBody struct {
+	// Data A managed database. The password is never part of this object; read it with `databases.getCredentials`.
+	Data Database `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesRotatePasswordRequestBody defines model for V1DatabasesRotatePasswordRequestBody.
+type V1DatabasesRotatePasswordRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesRotatePasswordResponseBody defines model for V1DatabasesRotatePasswordResponseBody.
+type V1DatabasesRotatePasswordResponseBody struct {
+	// Data A managed database. The password is never part of this object; read it with `databases.getCredentials`.
+	Data Database `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesUnlinkDatabaseRequestBody defines model for V1DatabasesUnlinkDatabaseRequestBody.
+type V1DatabasesUnlinkDatabaseRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// LinkId The link's id, from the database's `links`.
+	//
+	// Example: dbl_1234abcd
+	LinkId string `json:"linkId"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+
+	// RemoveVariable Also remove the environment variable. By default it stays, holding the last connection URL,
+	// but Teral no longer updates it.
+	RemoveVariable *bool `json:"removeVariable,omitempty"`
+}
+
+// V1DatabasesUnlinkDatabaseResponseBody defines model for V1DatabasesUnlinkDatabaseResponseBody.
+type V1DatabasesUnlinkDatabaseResponseBody struct {
+	// Data Empty response object by design. A successful response indicates this operation was successfully executed.
+	Data EmptyResponse `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesUpdateBackupScheduleRequestBody defines model for V1DatabasesUpdateBackupScheduleRequestBody.
+type V1DatabasesUpdateBackupScheduleRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Hour The UTC hour of the daily backup, 0 to 23.
+	//
+	// Example: 22
+	Hour int32 `json:"hour"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesUpdateBackupScheduleResponseBody defines model for V1DatabasesUpdateBackupScheduleResponseBody.
+type V1DatabasesUpdateBackupScheduleResponseBody struct {
+	// Data A managed database. The password is never part of this object; read it with `databases.getCredentials`.
+	Data Database `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesUpdateDatabaseRequestBody defines model for V1DatabasesUpdateDatabaseRequestBody.
+type V1DatabasesUpdateDatabaseRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Instances The new instance count: one primary plus replicas. Omit it to keep the current count. The
+	// plan caps it, see `maxInstances` in `databases.listOptions`.
+	//
+	//
+	// Example: 2
+	Instances *int32 `json:"instances,omitempty"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+
+	// Size The new size slug from `databases.listOptions`. Omit it to keep the current size. Storage
+	// cannot shrink, so the new size needs at least as much storage as the current one.
+	//
+	//
+	// Example: db-small
+	Size *string `json:"size,omitempty"`
+}
+
+// V1DatabasesUpdateDatabaseResponseBody defines model for V1DatabasesUpdateDatabaseResponseBody.
+type V1DatabasesUpdateDatabaseResponseBody struct {
+	// Data A managed database. The password is never part of this object; read it with `databases.getCredentials`.
+	Data Database `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
 }
 
 // V1DeployCreateDeploymentRequestBody Create a deployment from a pre-built Docker image
@@ -3760,9 +5033,9 @@ type V1GatewaySetPoliciesResponseBody struct {
 
 // V1GatewayUpdatePolicyRequestBody Partial update of a single policy. Omitted fields keep their stored
 // values; at least one updatable field must be provided. Providing one of
-// `firewall` or `logging` replaces the
-// policy's rule entirely, including switching its type; at most one may be
-// set.
+// `firewall`, `logging`, `redirect`, `customResponse`, `rateLimit`,
+// `jwtAuth` or `passwordProtection` replaces the policy's rule entirely, including switching its type; at
+// most one may be set.
 type V1GatewayUpdatePolicyRequestBody struct {
 	// App Identifies a resource by either its unique ID or its slug.
 	// Accepts a prefixed ID (such as 'proj_' or 'app_') or a slug.
@@ -3770,6 +5043,13 @@ type V1GatewayUpdatePolicyRequestBody struct {
 	//
 	// Example: proj_1234abcd
 	App ResourceIdentifier `json:"app"`
+
+	// CustomResponse Answers matching requests with a fixed response instead of forwarding
+	// them. Useful for maintenance pages, `robots.txt` on previews, or
+	// `/.well-known/` files.
+	//
+	// Example: {"body":"\u003ch1\u003eDown for maintenance\u003c/h1\u003e","contentType":"text/html; charset=utf-8","statusCode":503}
+	CustomResponse *CustomResponsePolicy `json:"customResponse,omitempty"`
 
 	// Enabled Enable or disable the policy. Disabled policies are stored but skipped
 	// during evaluation. Omit to keep the current setting.
@@ -3786,6 +5066,15 @@ type V1GatewayUpdatePolicyRequestBody struct {
 	//
 	// Example: {"action":"ACTION_DENY"}
 	Firewall *FirewallPolicy `json:"firewall,omitempty"`
+
+	// JwtAuth Requires a valid `Authorization: Bearer` JSON Web Token issued by your
+	// identity provider. Missing or invalid tokens get 401. On success the
+	// decoded token is forwarded to your app as JSON in the
+	// `X-Teral-Principal` header, and later policies such as rate limits can
+	// key on its subject.
+	//
+	// Example: {"algorithms":["RS256"],"audiences":["https://api.example.com"],"oidcIssuer":"https://example.auth0.com/"}
+	JwtAuth *JwtAuthPolicy `json:"jwtAuth,omitempty"`
 
 	// Logging Adds request data to the log entries of matching requests. The gateway
 	// always records a basic log entry for every request: method, host, path,
@@ -3807,6 +5096,13 @@ type V1GatewayUpdatePolicyRequestBody struct {
 	// Name New human-readable name. Omit to keep the current name.
 	Name *string `json:"name,omitempty"`
 
+	// PasswordProtection Asks visitors for a shared password before they can reach matching
+	// requests. After the correct password the gateway sets a signed cookie
+	// for the hostname. Changing the password signs every visitor out.
+	//
+	// Example: {"password":"correct-horse","sessionTtlMs":604800000}
+	PasswordProtection *PasswordProtectionPolicy `json:"passwordProtection,omitempty"`
+
 	// PolicyId Id of the policy to update, as returned by `gateway.listPolicies`.
 	// Ids are regenerated whenever `gateway.setPolicies` replaces the list,
 	// so list the policies first if you are unsure the id is current.
@@ -3820,6 +5116,21 @@ type V1GatewayUpdatePolicyRequestBody struct {
 	//
 	// Example: proj_1234abcd
 	Project ResourceIdentifier `json:"project"`
+
+	// RateLimit Limits how many matching requests each client can make per window.
+	// Requests over the limit get 429 Too Many Requests with a `Retry-After`
+	// header. Counters are shared across all gateway instances and regions,
+	// and are reset when the environment's policy list is replaced.
+	//
+	// Example: {"identifiers":[{"remoteIp":{}}],"limit":100,"windowMs":60000}
+	RateLimit *RatelimitPolicy `json:"rateLimit,omitempty"`
+
+	// Redirect Redirects matching requests instead of forwarding them. A redirect that
+	// would point at the requested URL itself is skipped, so a broad matcher
+	// cannot cause a redirect loop.
+	//
+	// Example: {"destination":"https://example.com/docs/${rest}","preserveQuery":true,"statusCode":308}
+	Redirect *RedirectPolicy `json:"redirect,omitempty"`
 }
 
 // V1GatewayUpdatePolicyResponseBody defines model for V1GatewayUpdatePolicyResponseBody.
@@ -3948,7 +5259,7 @@ type V1LogsQueryRuntimeLogsRequestBody struct {
 	// Severity Only return logs with one of these severities.
 	Severity *[]V1LogsQueryRuntimeLogsRequestBodySeverity `json:"severity,omitempty"`
 
-	// Since Only return logs at or after this Unix millisecond timestamp. Defaults to one hour ago.
+	// Since Only return logs at or after this Unix millisecond timestamp. Defaults to one hour ago. Logs older than the workspace's log retention are never returned, so an earlier timestamp reads from the start of the retention period.
 	Since *int64 `json:"since,omitempty"`
 
 	// Until Only return logs before this Unix millisecond timestamp.
@@ -4202,6 +5513,51 @@ type CliRevokeSessionJSONRequestBody = V1CliRevokeSessionRequestBody
 
 // CliStartDeviceAuthorizationJSONRequestBody defines body for CliStartDeviceAuthorization for application/json ContentType.
 type CliStartDeviceAuthorizationJSONRequestBody = V1CliStartDeviceAuthorizationRequestBody
+
+// DatabasesCreateBackupJSONRequestBody defines body for DatabasesCreateBackup for application/json ContentType.
+type DatabasesCreateBackupJSONRequestBody = V1DatabasesCreateBackupRequestBody
+
+// DatabasesCreateDatabaseJSONRequestBody defines body for DatabasesCreateDatabase for application/json ContentType.
+type DatabasesCreateDatabaseJSONRequestBody = V1DatabasesCreateDatabaseRequestBody
+
+// DatabasesCreateTunnelJSONRequestBody defines body for DatabasesCreateTunnel for application/json ContentType.
+type DatabasesCreateTunnelJSONRequestBody = V1DatabasesCreateTunnelRequestBody
+
+// DatabasesDeleteDatabaseJSONRequestBody defines body for DatabasesDeleteDatabase for application/json ContentType.
+type DatabasesDeleteDatabaseJSONRequestBody = V1DatabasesDeleteDatabaseRequestBody
+
+// DatabasesGetCredentialsJSONRequestBody defines body for DatabasesGetCredentials for application/json ContentType.
+type DatabasesGetCredentialsJSONRequestBody = V1DatabasesGetCredentialsRequestBody
+
+// DatabasesGetDatabaseJSONRequestBody defines body for DatabasesGetDatabase for application/json ContentType.
+type DatabasesGetDatabaseJSONRequestBody = V1DatabasesGetDatabaseRequestBody
+
+// DatabasesLinkDatabaseJSONRequestBody defines body for DatabasesLinkDatabase for application/json ContentType.
+type DatabasesLinkDatabaseJSONRequestBody = V1DatabasesLinkDatabaseRequestBody
+
+// DatabasesListBackupsJSONRequestBody defines body for DatabasesListBackups for application/json ContentType.
+type DatabasesListBackupsJSONRequestBody = V1DatabasesListBackupsRequestBody
+
+// DatabasesListDatabasesJSONRequestBody defines body for DatabasesListDatabases for application/json ContentType.
+type DatabasesListDatabasesJSONRequestBody = V1DatabasesListDatabasesRequestBody
+
+// DatabasesListOptionsJSONRequestBody defines body for DatabasesListOptions for application/json ContentType.
+type DatabasesListOptionsJSONRequestBody = V1DatabasesListOptionsRequestBody
+
+// DatabasesRestoreDatabaseJSONRequestBody defines body for DatabasesRestoreDatabase for application/json ContentType.
+type DatabasesRestoreDatabaseJSONRequestBody = V1DatabasesRestoreDatabaseRequestBody
+
+// DatabasesRotatePasswordJSONRequestBody defines body for DatabasesRotatePassword for application/json ContentType.
+type DatabasesRotatePasswordJSONRequestBody = V1DatabasesRotatePasswordRequestBody
+
+// DatabasesUnlinkDatabaseJSONRequestBody defines body for DatabasesUnlinkDatabase for application/json ContentType.
+type DatabasesUnlinkDatabaseJSONRequestBody = V1DatabasesUnlinkDatabaseRequestBody
+
+// DatabasesUpdateBackupScheduleJSONRequestBody defines body for DatabasesUpdateBackupSchedule for application/json ContentType.
+type DatabasesUpdateBackupScheduleJSONRequestBody = V1DatabasesUpdateBackupScheduleRequestBody
+
+// DatabasesUpdateDatabaseJSONRequestBody defines body for DatabasesUpdateDatabase for application/json ContentType.
+type DatabasesUpdateDatabaseJSONRequestBody = V1DatabasesUpdateDatabaseRequestBody
 
 // DeployCreateDeploymentJSONRequestBody defines body for DeployCreateDeployment for application/json ContentType.
 type DeployCreateDeploymentJSONRequestBody = V1DeployCreateDeploymentRequestBody
@@ -5324,6 +6680,616 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v1/cli.startDeviceAuthorization (the `CliStartDeviceAuthorization` operationId).
 	CliStartDeviceAuthorization(ctx context.Context, body CliStartDeviceAuthorizationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesCreateBackupWithBody Create database backup
+	//
+	// Take a backup of a database now, in addition to the daily one.
+	//
+	// The backup runs in the background: it shows as `pending` in `databases.listBackups` until
+	// the database's server starts it, then `running`, and `completed` or `failed`. One manual
+	// backup runs at a time, and the database has to be ready. Manual backups are kept for the
+	// database's `backupRetentionDays` like the daily ones.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.createBackup (the `DatabasesCreateBackup` operationId).
+	DatabasesCreateBackupWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesCreateBackup Create database backup
+	//
+	// Take a backup of a database now, in addition to the daily one.
+	//
+	// The backup runs in the background: it shows as `pending` in `databases.listBackups` until
+	// the database's server starts it, then `running`, and `completed` or `failed`. One manual
+	// backup runs at a time, and the database has to be ready. Manual backups are kept for the
+	// database's `backupRetentionDays` like the daily ones.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.createBackup (the `DatabasesCreateBackup` operationId).
+	DatabasesCreateBackup(ctx context.Context, body DatabasesCreateBackupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesCreateDatabaseWithBody Create database
+	//
+	// Create a managed database in a project.
+	//
+	// The database is created in the `provisioning` state. Teral generates its password and
+	// starts it in the background; poll `databases.getDatabase` until the status is `ready`.
+	// Its password and connection URL are available from `databases.getCredentials` once it is
+	// provisioned.
+	//
+	// Your plan decides how many databases you may have and which sizes you may use; see
+	// `databases.listOptions`. Exceeding either returns a 403.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.create_database`
+	// - `project.<project_id>.create_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
+	DatabasesCreateDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesCreateDatabase Create database
+	//
+	// Create a managed database in a project.
+	//
+	// The database is created in the `provisioning` state. Teral generates its password and
+	// starts it in the background; poll `databases.getDatabase` until the status is `ready`.
+	// Its password and connection URL are available from `databases.getCredentials` once it is
+	// provisioned.
+	//
+	// Your plan decides how many databases you may have and which sizes you may use; see
+	// `databases.listOptions`. Exceeding either returns a 403.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.create_database`
+	// - `project.<project_id>.create_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
+	DatabasesCreateDatabase(ctx context.Context, body DatabasesCreateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesCreateTunnelWithBody Create database tunnel
+	//
+	// Get a short-lived token to reach a database through its server's database proxy, the way
+	// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+	// connections until then; connections stay up after it expires.
+	//
+	// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+	// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+	// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+	// database still asks for its password.
+	//
+	// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+	// recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+	DatabasesCreateTunnelWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesCreateTunnel Create database tunnel
+	//
+	// Get a short-lived token to reach a database through its server's database proxy, the way
+	// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+	// connections until then; connections stay up after it expires.
+	//
+	// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+	// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+	// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+	// database still asks for its password.
+	//
+	// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+	// recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+	DatabasesCreateTunnel(ctx context.Context, body DatabasesCreateTunnelJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesDeleteDatabaseWithBody Delete database
+	//
+	// Delete a managed database, **data included**. This cannot be undone.
+	//
+	// Every link is removed together with its environment variable. The database shows as
+	// `deleting` until its server has removed it. Deleting a database that is already being
+	// deleted succeeds.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.delete_database`
+	// - `project.<project_id>.delete_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.deleteDatabase (the `DatabasesDeleteDatabase` operationId).
+	DatabasesDeleteDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesDeleteDatabase Delete database
+	//
+	// Delete a managed database, **data included**. This cannot be undone.
+	//
+	// Every link is removed together with its environment variable. The database shows as
+	// `deleting` until its server has removed it. Deleting a database that is already being
+	// deleted succeeds.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.delete_database`
+	// - `project.<project_id>.delete_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.deleteDatabase (the `DatabasesDeleteDatabase` operationId).
+	DatabasesDeleteDatabase(ctx context.Context, body DatabasesDeleteDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesGetCredentialsWithBody Get database credentials
+	//
+	// Read the password and connection URL of a managed database.
+	//
+	// The password exists once provisioning has generated it; until then this returns a 412.
+	// During a password rotation it returns the password being applied.
+	//
+	// Every call is recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.getCredentials (the `DatabasesGetCredentials` operationId).
+	DatabasesGetCredentialsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesGetCredentials Get database credentials
+	//
+	// Read the password and connection URL of a managed database.
+	//
+	// The password exists once provisioning has generated it; until then this returns a 412.
+	// During a password rotation it returns the password being applied.
+	//
+	// Every call is recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.getCredentials (the `DatabasesGetCredentials` operationId).
+	DatabasesGetCredentials(ctx context.Context, body DatabasesGetCredentialsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesGetDatabaseWithBody Get database
+	//
+	// Get a managed database with its links. The password is not included; read it with
+	// `databases.getCredentials`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.getDatabase (the `DatabasesGetDatabase` operationId).
+	DatabasesGetDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesGetDatabase Get database
+	//
+	// Get a managed database with its links. The password is not included; read it with
+	// `databases.getCredentials`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.getDatabase (the `DatabasesGetDatabase` operationId).
+	DatabasesGetDatabase(ctx context.Context, body DatabasesGetDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesLinkDatabaseWithBody Link database
+	//
+	// Keep a database's connection URL in an environment variable of an app environment.
+	//
+	// Teral writes the variable as soon as the database has a password, replacing a variable of
+	// the same name, and rewrites it whenever the password rotates. The app picks it up on its
+	// next deployment. The app must be in the database's project.
+	//
+	// Linking also needs permission to set the environment's variables:
+	// `environment.*.set_environment_variables` or `environment.<environment_id>.set_environment_variables`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.linkDatabase (the `DatabasesLinkDatabase` operationId).
+	DatabasesLinkDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesLinkDatabase Link database
+	//
+	// Keep a database's connection URL in an environment variable of an app environment.
+	//
+	// Teral writes the variable as soon as the database has a password, replacing a variable of
+	// the same name, and rewrites it whenever the password rotates. The app picks it up on its
+	// next deployment. The app must be in the database's project.
+	//
+	// Linking also needs permission to set the environment's variables:
+	// `environment.*.set_environment_variables` or `environment.<environment_id>.set_environment_variables`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.linkDatabase (the `DatabasesLinkDatabase` operationId).
+	DatabasesLinkDatabase(ctx context.Context, body DatabasesLinkDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesListBackupsWithBody List database backups
+	//
+	// List a database's backups, newest first: the daily scheduled ones and the ones taken with
+	// `databases.createBackup`. Backups are kept for the database's `backupRetentionDays`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.listBackups (the `DatabasesListBackups` operationId).
+	DatabasesListBackupsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesListBackups List database backups
+	//
+	// List a database's backups, newest first: the daily scheduled ones and the ones taken with
+	// `databases.createBackup`. Backups are kept for the database's `backupRetentionDays`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.listBackups (the `DatabasesListBackups` operationId).
+	DatabasesListBackups(ctx context.Context, body DatabasesListBackupsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesListDatabasesWithBody List databases
+	//
+	// List the workspace's managed databases, or one project's.
+	//
+	// Databases the root key may not read are left out.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.listDatabases (the `DatabasesListDatabases` operationId).
+	DatabasesListDatabasesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesListDatabases List databases
+	//
+	// List the workspace's managed databases, or one project's.
+	//
+	// Databases the root key may not read are left out.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.listDatabases (the `DatabasesListDatabases` operationId).
+	DatabasesListDatabases(ctx context.Context, body DatabasesListDatabasesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesListOptionsWithBody List database options
+	//
+	// List the engines, versions and sizes a managed database can be created with, and the
+	// workspace's plan limits.
+	//
+	// Each size carries `allowed`: whether the workspace may create it on its current plan.
+	// `maxDatabases` and `databaseCount` tell how many more databases fit the plan.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	// - `project.*.create_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.listOptions (the `DatabasesListOptions` operationId).
+	DatabasesListOptionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesListOptions List database options
+	//
+	// List the engines, versions and sizes a managed database can be created with, and the
+	// workspace's plan limits.
+	//
+	// Each size carries `allowed`: whether the workspace may create it on its current plan.
+	// `maxDatabases` and `databaseCount` tell how many more databases fit the plan.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	// - `project.*.create_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.listOptions (the `DatabasesListOptions` operationId).
+	DatabasesListOptions(ctx context.Context, body DatabasesListOptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesRestoreDatabaseWithBody Restore database
+	//
+	// Create a new database from another database's backups. The source keeps running unchanged.
+	//
+	// Restore to one of three points:
+	// - the latest state: omit `targetTime` and `backupId`
+	// - the end of a backup: pass its `backupId` from `databases.listBackups`
+	// - any second within the retention: pass `targetTime`. This needs a plan with
+	//   `pointInTimeRecovery`, and the time must lie between the source's `earliestRestoreTime`
+	//   and now.
+	//
+	// The new database is created in the source's project with the source's engine, version,
+	// database name and user, and its own password (read it with `databases.getCredentials`). It
+	// counts against the plan's databases like a new one and shows as `provisioning` until the
+	// restore finished. It keeps the source's size and instance count unless given, and needs at
+	// least the source's storage.
+	//
+	// Besides the permission below, the root key needs `read_database` on the source database.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.create_database`
+	// - `project.<project_id>.create_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.restoreDatabase (the `DatabasesRestoreDatabase` operationId).
+	DatabasesRestoreDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesRestoreDatabase Restore database
+	//
+	// Create a new database from another database's backups. The source keeps running unchanged.
+	//
+	// Restore to one of three points:
+	// - the latest state: omit `targetTime` and `backupId`
+	// - the end of a backup: pass its `backupId` from `databases.listBackups`
+	// - any second within the retention: pass `targetTime`. This needs a plan with
+	//   `pointInTimeRecovery`, and the time must lie between the source's `earliestRestoreTime`
+	//   and now.
+	//
+	// The new database is created in the source's project with the source's engine, version,
+	// database name and user, and its own password (read it with `databases.getCredentials`). It
+	// counts against the plan's databases like a new one and shows as `provisioning` until the
+	// restore finished. It keeps the source's size and instance count unless given, and needs at
+	// least the source's storage.
+	//
+	// Besides the permission below, the root key needs `read_database` on the source database.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.create_database`
+	// - `project.<project_id>.create_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.restoreDatabase (the `DatabasesRestoreDatabase` operationId).
+	DatabasesRestoreDatabase(ctx context.Context, body DatabasesRestoreDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesRotatePasswordWithBody Rotate database password
+	//
+	// Generate a new password for the database's user.
+	//
+	// The rotation runs in the background: the database shows as `updating` until the new
+	// password is applied, and the old password stops working then. Every linked environment
+	// variable is rewritten with the new connection URL; linked apps pick it up on their next
+	// deployment.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.rotatePassword (the `DatabasesRotatePassword` operationId).
+	DatabasesRotatePasswordWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesRotatePassword Rotate database password
+	//
+	// Generate a new password for the database's user.
+	//
+	// The rotation runs in the background: the database shows as `updating` until the new
+	// password is applied, and the old password stops working then. Every linked environment
+	// variable is rewritten with the new connection URL; linked apps pick it up on their next
+	// deployment.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.rotatePassword (the `DatabasesRotatePassword` operationId).
+	DatabasesRotatePassword(ctx context.Context, body DatabasesRotatePasswordJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesUnlinkDatabaseWithBody Unlink database
+	//
+	// Stop keeping a database's connection URL in an environment variable.
+	//
+	// The variable stays unless `removeVariable` is true. Removing it also needs permission to
+	// remove the environment's variables: `environment.*.remove_environment_variables` or
+	// `environment.<environment_id>.remove_environment_variables`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.unlinkDatabase (the `DatabasesUnlinkDatabase` operationId).
+	DatabasesUnlinkDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesUnlinkDatabase Unlink database
+	//
+	// Stop keeping a database's connection URL in an environment variable.
+	//
+	// The variable stays unless `removeVariable` is true. Removing it also needs permission to
+	// remove the environment's variables: `environment.*.remove_environment_variables` or
+	// `environment.<environment_id>.remove_environment_variables`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.unlinkDatabase (the `DatabasesUnlinkDatabase` operationId).
+	DatabasesUnlinkDatabase(ctx context.Context, body DatabasesUnlinkDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesUpdateBackupScheduleWithBody Update database backup schedule
+	//
+	// Move a database's daily backup to another hour (UTC). Changes are archived continuously in
+	// between, so the hour only decides when the daily base backup runs, for example outside the
+	// database's busiest time.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.updateBackupSchedule (the `DatabasesUpdateBackupSchedule` operationId).
+	DatabasesUpdateBackupScheduleWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesUpdateBackupSchedule Update database backup schedule
+	//
+	// Move a database's daily backup to another hour (UTC). Changes are archived continuously in
+	// between, so the hour only decides when the daily base backup runs, for example outside the
+	// database's busiest time.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.updateBackupSchedule (the `DatabasesUpdateBackupSchedule` operationId).
+	DatabasesUpdateBackupSchedule(ctx context.Context, body DatabasesUpdateBackupScheduleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesUpdateDatabaseWithBody Update database
+	//
+	// Resize a database: move it to another size, change how many instances run it, or both.
+	//
+	// The change runs in the background: the database shows as `updating` until every instance
+	// runs the new size. With more than one instance the replicas are updated first and the
+	// primary switches over to one of them, so connections drop only briefly; a single instance
+	// restarts. Storage cannot shrink, so the new size needs at least as much storage as the
+	// current one. The database stays on its server, so the server needs room for the growth.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.updateDatabase (the `DatabasesUpdateDatabase` operationId).
+	DatabasesUpdateDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesUpdateDatabase Update database
+	//
+	// Resize a database: move it to another size, change how many instances run it, or both.
+	//
+	// The change runs in the background: the database shows as `updating` until every instance
+	// runs the new size. With more than one instance the replicas are updated first and the
+	// primary switches over to one of them, so connections drop only briefly; a single instance
+	// restarts. Storage cannot shrink, so the new size needs at least as much storage as the
+	// current one. The database stays on its server, so the server needs room for the growth.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.updateDatabase (the `DatabasesUpdateDatabase` operationId).
+	DatabasesUpdateDatabase(ctx context.Context, body DatabasesUpdateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeployCreateDeploymentWithBody Create deployment
 	//
@@ -6512,6 +8478,9 @@ type ClientInterface interface {
 	// A cursor in ascending mode never expires, so a client can poll with it
 	// indefinitely; poll no faster than once per second.
 	//
+	// Logs are kept for the log retention of the workspace's plan. Older logs are
+	// not returned, whatever range the request asks for.
+	//
 	// **Required Permissions**
 	//
 	// Read access to deployments in the environment, for example
@@ -6530,6 +8499,9 @@ type ClientInterface interface {
 	// `order: asc` and a `since` timestamp, then keep passing the returned `cursor`.
 	// A cursor in ascending mode never expires, so a client can poll with it
 	// indefinitely; poll no faster than once per second.
+	//
+	// Logs are kept for the log retention of the workspace's plan. Older logs are
+	// not returned, whatever range the request asks for.
 	//
 	// **Required Permissions**
 	//
@@ -7646,6 +9618,916 @@ func (c *Client) CliStartDeviceAuthorizationWithBody(ctx context.Context, conten
 // Corresponds with POST /v1/cli.startDeviceAuthorization (the `CliStartDeviceAuthorization` operationId).
 func (c *Client) CliStartDeviceAuthorization(ctx context.Context, body CliStartDeviceAuthorizationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCliStartDeviceAuthorizationRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesCreateBackupWithBody Create database backup
+//
+// Take a backup of a database now, in addition to the daily one.
+//
+// The backup runs in the background: it shows as `pending` in `databases.listBackups` until
+// the database's server starts it, then `running`, and `completed` or `failed`. One manual
+// backup runs at a time, and the database has to be ready. Manual backups are kept for the
+// database's `backupRetentionDays` like the daily ones.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.createBackup (the `DatabasesCreateBackup` operationId).
+func (c *Client) DatabasesCreateBackupWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesCreateBackupRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesCreateBackup Create database backup
+//
+// Take a backup of a database now, in addition to the daily one.
+//
+// The backup runs in the background: it shows as `pending` in `databases.listBackups` until
+// the database's server starts it, then `running`, and `completed` or `failed`. One manual
+// backup runs at a time, and the database has to be ready. Manual backups are kept for the
+// database's `backupRetentionDays` like the daily ones.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.createBackup (the `DatabasesCreateBackup` operationId).
+func (c *Client) DatabasesCreateBackup(ctx context.Context, body DatabasesCreateBackupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesCreateBackupRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesCreateDatabaseWithBody Create database
+//
+// Create a managed database in a project.
+//
+// The database is created in the `provisioning` state. Teral generates its password and
+// starts it in the background; poll `databases.getDatabase` until the status is `ready`.
+// Its password and connection URL are available from `databases.getCredentials` once it is
+// provisioned.
+//
+// Your plan decides how many databases you may have and which sizes you may use; see
+// `databases.listOptions`. Exceeding either returns a 403.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.create_database`
+// - `project.<project_id>.create_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
+func (c *Client) DatabasesCreateDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesCreateDatabaseRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesCreateDatabase Create database
+//
+// Create a managed database in a project.
+//
+// The database is created in the `provisioning` state. Teral generates its password and
+// starts it in the background; poll `databases.getDatabase` until the status is `ready`.
+// Its password and connection URL are available from `databases.getCredentials` once it is
+// provisioned.
+//
+// Your plan decides how many databases you may have and which sizes you may use; see
+// `databases.listOptions`. Exceeding either returns a 403.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.create_database`
+// - `project.<project_id>.create_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
+func (c *Client) DatabasesCreateDatabase(ctx context.Context, body DatabasesCreateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesCreateDatabaseRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesCreateTunnelWithBody Create database tunnel
+//
+// Get a short-lived token to reach a database through its server's database proxy, the way
+// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+// connections until then; connections stay up after it expires.
+//
+// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+// database still asks for its password.
+//
+// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+// recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+func (c *Client) DatabasesCreateTunnelWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesCreateTunnelRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesCreateTunnel Create database tunnel
+//
+// Get a short-lived token to reach a database through its server's database proxy, the way
+// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+// connections until then; connections stay up after it expires.
+//
+// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+// database still asks for its password.
+//
+// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+// recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+func (c *Client) DatabasesCreateTunnel(ctx context.Context, body DatabasesCreateTunnelJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesCreateTunnelRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesDeleteDatabaseWithBody Delete database
+//
+// Delete a managed database, **data included**. This cannot be undone.
+//
+// Every link is removed together with its environment variable. The database shows as
+// `deleting` until its server has removed it. Deleting a database that is already being
+// deleted succeeds.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.delete_database`
+// - `project.<project_id>.delete_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.deleteDatabase (the `DatabasesDeleteDatabase` operationId).
+func (c *Client) DatabasesDeleteDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesDeleteDatabaseRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesDeleteDatabase Delete database
+//
+// Delete a managed database, **data included**. This cannot be undone.
+//
+// Every link is removed together with its environment variable. The database shows as
+// `deleting` until its server has removed it. Deleting a database that is already being
+// deleted succeeds.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.delete_database`
+// - `project.<project_id>.delete_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.deleteDatabase (the `DatabasesDeleteDatabase` operationId).
+func (c *Client) DatabasesDeleteDatabase(ctx context.Context, body DatabasesDeleteDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesDeleteDatabaseRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesGetCredentialsWithBody Get database credentials
+//
+// Read the password and connection URL of a managed database.
+//
+// The password exists once provisioning has generated it; until then this returns a 412.
+// During a password rotation it returns the password being applied.
+//
+// Every call is recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.getCredentials (the `DatabasesGetCredentials` operationId).
+func (c *Client) DatabasesGetCredentialsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesGetCredentialsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesGetCredentials Get database credentials
+//
+// Read the password and connection URL of a managed database.
+//
+// The password exists once provisioning has generated it; until then this returns a 412.
+// During a password rotation it returns the password being applied.
+//
+// Every call is recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.getCredentials (the `DatabasesGetCredentials` operationId).
+func (c *Client) DatabasesGetCredentials(ctx context.Context, body DatabasesGetCredentialsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesGetCredentialsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesGetDatabaseWithBody Get database
+//
+// Get a managed database with its links. The password is not included; read it with
+// `databases.getCredentials`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.getDatabase (the `DatabasesGetDatabase` operationId).
+func (c *Client) DatabasesGetDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesGetDatabaseRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesGetDatabase Get database
+//
+// Get a managed database with its links. The password is not included; read it with
+// `databases.getCredentials`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.getDatabase (the `DatabasesGetDatabase` operationId).
+func (c *Client) DatabasesGetDatabase(ctx context.Context, body DatabasesGetDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesGetDatabaseRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesLinkDatabaseWithBody Link database
+//
+// Keep a database's connection URL in an environment variable of an app environment.
+//
+// Teral writes the variable as soon as the database has a password, replacing a variable of
+// the same name, and rewrites it whenever the password rotates. The app picks it up on its
+// next deployment. The app must be in the database's project.
+//
+// Linking also needs permission to set the environment's variables:
+// `environment.*.set_environment_variables` or `environment.<environment_id>.set_environment_variables`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.linkDatabase (the `DatabasesLinkDatabase` operationId).
+func (c *Client) DatabasesLinkDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesLinkDatabaseRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesLinkDatabase Link database
+//
+// Keep a database's connection URL in an environment variable of an app environment.
+//
+// Teral writes the variable as soon as the database has a password, replacing a variable of
+// the same name, and rewrites it whenever the password rotates. The app picks it up on its
+// next deployment. The app must be in the database's project.
+//
+// Linking also needs permission to set the environment's variables:
+// `environment.*.set_environment_variables` or `environment.<environment_id>.set_environment_variables`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.linkDatabase (the `DatabasesLinkDatabase` operationId).
+func (c *Client) DatabasesLinkDatabase(ctx context.Context, body DatabasesLinkDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesLinkDatabaseRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesListBackupsWithBody List database backups
+//
+// List a database's backups, newest first: the daily scheduled ones and the ones taken with
+// `databases.createBackup`. Backups are kept for the database's `backupRetentionDays`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.listBackups (the `DatabasesListBackups` operationId).
+func (c *Client) DatabasesListBackupsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesListBackupsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesListBackups List database backups
+//
+// List a database's backups, newest first: the daily scheduled ones and the ones taken with
+// `databases.createBackup`. Backups are kept for the database's `backupRetentionDays`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.listBackups (the `DatabasesListBackups` operationId).
+func (c *Client) DatabasesListBackups(ctx context.Context, body DatabasesListBackupsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesListBackupsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesListDatabasesWithBody List databases
+//
+// List the workspace's managed databases, or one project's.
+//
+// Databases the root key may not read are left out.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.listDatabases (the `DatabasesListDatabases` operationId).
+func (c *Client) DatabasesListDatabasesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesListDatabasesRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesListDatabases List databases
+//
+// List the workspace's managed databases, or one project's.
+//
+// Databases the root key may not read are left out.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.listDatabases (the `DatabasesListDatabases` operationId).
+func (c *Client) DatabasesListDatabases(ctx context.Context, body DatabasesListDatabasesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesListDatabasesRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesListOptionsWithBody List database options
+//
+// List the engines, versions and sizes a managed database can be created with, and the
+// workspace's plan limits.
+//
+// Each size carries `allowed`: whether the workspace may create it on its current plan.
+// `maxDatabases` and `databaseCount` tell how many more databases fit the plan.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+// - `project.*.create_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.listOptions (the `DatabasesListOptions` operationId).
+func (c *Client) DatabasesListOptionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesListOptionsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesListOptions List database options
+//
+// List the engines, versions and sizes a managed database can be created with, and the
+// workspace's plan limits.
+//
+// Each size carries `allowed`: whether the workspace may create it on its current plan.
+// `maxDatabases` and `databaseCount` tell how many more databases fit the plan.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+// - `project.*.create_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.listOptions (the `DatabasesListOptions` operationId).
+func (c *Client) DatabasesListOptions(ctx context.Context, body DatabasesListOptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesListOptionsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesRestoreDatabaseWithBody Restore database
+//
+// Create a new database from another database's backups. The source keeps running unchanged.
+//
+// Restore to one of three points:
+//   - the latest state: omit `targetTime` and `backupId`
+//   - the end of a backup: pass its `backupId` from `databases.listBackups`
+//   - any second within the retention: pass `targetTime`. This needs a plan with
+//     `pointInTimeRecovery`, and the time must lie between the source's `earliestRestoreTime`
+//     and now.
+//
+// The new database is created in the source's project with the source's engine, version,
+// database name and user, and its own password (read it with `databases.getCredentials`). It
+// counts against the plan's databases like a new one and shows as `provisioning` until the
+// restore finished. It keeps the source's size and instance count unless given, and needs at
+// least the source's storage.
+//
+// Besides the permission below, the root key needs `read_database` on the source database.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.create_database`
+// - `project.<project_id>.create_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.restoreDatabase (the `DatabasesRestoreDatabase` operationId).
+func (c *Client) DatabasesRestoreDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesRestoreDatabaseRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesRestoreDatabase Restore database
+//
+// Create a new database from another database's backups. The source keeps running unchanged.
+//
+// Restore to one of three points:
+//   - the latest state: omit `targetTime` and `backupId`
+//   - the end of a backup: pass its `backupId` from `databases.listBackups`
+//   - any second within the retention: pass `targetTime`. This needs a plan with
+//     `pointInTimeRecovery`, and the time must lie between the source's `earliestRestoreTime`
+//     and now.
+//
+// The new database is created in the source's project with the source's engine, version,
+// database name and user, and its own password (read it with `databases.getCredentials`). It
+// counts against the plan's databases like a new one and shows as `provisioning` until the
+// restore finished. It keeps the source's size and instance count unless given, and needs at
+// least the source's storage.
+//
+// Besides the permission below, the root key needs `read_database` on the source database.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.create_database`
+// - `project.<project_id>.create_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.restoreDatabase (the `DatabasesRestoreDatabase` operationId).
+func (c *Client) DatabasesRestoreDatabase(ctx context.Context, body DatabasesRestoreDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesRestoreDatabaseRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesRotatePasswordWithBody Rotate database password
+//
+// Generate a new password for the database's user.
+//
+// The rotation runs in the background: the database shows as `updating` until the new
+// password is applied, and the old password stops working then. Every linked environment
+// variable is rewritten with the new connection URL; linked apps pick it up on their next
+// deployment.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.rotatePassword (the `DatabasesRotatePassword` operationId).
+func (c *Client) DatabasesRotatePasswordWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesRotatePasswordRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesRotatePassword Rotate database password
+//
+// Generate a new password for the database's user.
+//
+// The rotation runs in the background: the database shows as `updating` until the new
+// password is applied, and the old password stops working then. Every linked environment
+// variable is rewritten with the new connection URL; linked apps pick it up on their next
+// deployment.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.rotatePassword (the `DatabasesRotatePassword` operationId).
+func (c *Client) DatabasesRotatePassword(ctx context.Context, body DatabasesRotatePasswordJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesRotatePasswordRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesUnlinkDatabaseWithBody Unlink database
+//
+// Stop keeping a database's connection URL in an environment variable.
+//
+// The variable stays unless `removeVariable` is true. Removing it also needs permission to
+// remove the environment's variables: `environment.*.remove_environment_variables` or
+// `environment.<environment_id>.remove_environment_variables`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.unlinkDatabase (the `DatabasesUnlinkDatabase` operationId).
+func (c *Client) DatabasesUnlinkDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesUnlinkDatabaseRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesUnlinkDatabase Unlink database
+//
+// Stop keeping a database's connection URL in an environment variable.
+//
+// The variable stays unless `removeVariable` is true. Removing it also needs permission to
+// remove the environment's variables: `environment.*.remove_environment_variables` or
+// `environment.<environment_id>.remove_environment_variables`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.unlinkDatabase (the `DatabasesUnlinkDatabase` operationId).
+func (c *Client) DatabasesUnlinkDatabase(ctx context.Context, body DatabasesUnlinkDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesUnlinkDatabaseRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesUpdateBackupScheduleWithBody Update database backup schedule
+//
+// Move a database's daily backup to another hour (UTC). Changes are archived continuously in
+// between, so the hour only decides when the daily base backup runs, for example outside the
+// database's busiest time.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.updateBackupSchedule (the `DatabasesUpdateBackupSchedule` operationId).
+func (c *Client) DatabasesUpdateBackupScheduleWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesUpdateBackupScheduleRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesUpdateBackupSchedule Update database backup schedule
+//
+// Move a database's daily backup to another hour (UTC). Changes are archived continuously in
+// between, so the hour only decides when the daily base backup runs, for example outside the
+// database's busiest time.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.updateBackupSchedule (the `DatabasesUpdateBackupSchedule` operationId).
+func (c *Client) DatabasesUpdateBackupSchedule(ctx context.Context, body DatabasesUpdateBackupScheduleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesUpdateBackupScheduleRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesUpdateDatabaseWithBody Update database
+//
+// Resize a database: move it to another size, change how many instances run it, or both.
+//
+// The change runs in the background: the database shows as `updating` until every instance
+// runs the new size. With more than one instance the replicas are updated first and the
+// primary switches over to one of them, so connections drop only briefly; a single instance
+// restarts. Storage cannot shrink, so the new size needs at least as much storage as the
+// current one. The database stays on its server, so the server needs room for the growth.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.updateDatabase (the `DatabasesUpdateDatabase` operationId).
+func (c *Client) DatabasesUpdateDatabaseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesUpdateDatabaseRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesUpdateDatabase Update database
+//
+// Resize a database: move it to another size, change how many instances run it, or both.
+//
+// The change runs in the background: the database shows as `updating` until every instance
+// runs the new size. With more than one instance the replicas are updated first and the
+// primary switches over to one of them, so connections drop only briefly; a single instance
+// restarts. Storage cannot shrink, so the new size needs at least as much storage as the
+// current one. The database stays on its server, so the server needs room for the growth.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.updateDatabase (the `DatabasesUpdateDatabase` operationId).
+func (c *Client) DatabasesUpdateDatabase(ctx context.Context, body DatabasesUpdateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesUpdateDatabaseRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -9361,6 +12243,9 @@ func (c *Client) LogsGetBuildLogs(ctx context.Context, body LogsGetBuildLogsJSON
 // A cursor in ascending mode never expires, so a client can poll with it
 // indefinitely; poll no faster than once per second.
 //
+// Logs are kept for the log retention of the workspace's plan. Older logs are
+// not returned, whatever range the request asks for.
+//
 // **Required Permissions**
 //
 // Read access to deployments in the environment, for example
@@ -9389,6 +12274,9 @@ func (c *Client) LogsQueryRuntimeLogsWithBody(ctx context.Context, contentType s
 // `order: asc` and a `since` timestamp, then keep passing the returned `cursor`.
 // A cursor in ascending mode never expires, so a client can poll with it
 // indefinitely; poll no faster than once per second.
+//
+// Logs are kept for the log retention of the workspace's plan. Older logs are
+// not returned, whatever range the request asks for.
 //
 // **Required Permissions**
 //
@@ -10385,6 +13273,606 @@ func NewCliStartDeviceAuthorizationRequestWithBody(server string, contentType st
 	}
 
 	operationPath := fmt.Sprintf("/v1/cli.startDeviceAuthorization")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesCreateBackupRequest calls the generic DatabasesCreateBackup builder with application/json body
+func NewDatabasesCreateBackupRequest(server string, body DatabasesCreateBackupJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesCreateBackupRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesCreateBackupRequestWithBody constructs an http.Request for the DatabasesCreateBackup method, with any body, and a specified content type
+func NewDatabasesCreateBackupRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.createBackup")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesCreateDatabaseRequest calls the generic DatabasesCreateDatabase builder with application/json body
+func NewDatabasesCreateDatabaseRequest(server string, body DatabasesCreateDatabaseJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesCreateDatabaseRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesCreateDatabaseRequestWithBody constructs an http.Request for the DatabasesCreateDatabase method, with any body, and a specified content type
+func NewDatabasesCreateDatabaseRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.createDatabase")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesCreateTunnelRequest calls the generic DatabasesCreateTunnel builder with application/json body
+func NewDatabasesCreateTunnelRequest(server string, body DatabasesCreateTunnelJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesCreateTunnelRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesCreateTunnelRequestWithBody constructs an http.Request for the DatabasesCreateTunnel method, with any body, and a specified content type
+func NewDatabasesCreateTunnelRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.createTunnel")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesDeleteDatabaseRequest calls the generic DatabasesDeleteDatabase builder with application/json body
+func NewDatabasesDeleteDatabaseRequest(server string, body DatabasesDeleteDatabaseJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesDeleteDatabaseRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesDeleteDatabaseRequestWithBody constructs an http.Request for the DatabasesDeleteDatabase method, with any body, and a specified content type
+func NewDatabasesDeleteDatabaseRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.deleteDatabase")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesGetCredentialsRequest calls the generic DatabasesGetCredentials builder with application/json body
+func NewDatabasesGetCredentialsRequest(server string, body DatabasesGetCredentialsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesGetCredentialsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesGetCredentialsRequestWithBody constructs an http.Request for the DatabasesGetCredentials method, with any body, and a specified content type
+func NewDatabasesGetCredentialsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.getCredentials")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesGetDatabaseRequest calls the generic DatabasesGetDatabase builder with application/json body
+func NewDatabasesGetDatabaseRequest(server string, body DatabasesGetDatabaseJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesGetDatabaseRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesGetDatabaseRequestWithBody constructs an http.Request for the DatabasesGetDatabase method, with any body, and a specified content type
+func NewDatabasesGetDatabaseRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.getDatabase")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesLinkDatabaseRequest calls the generic DatabasesLinkDatabase builder with application/json body
+func NewDatabasesLinkDatabaseRequest(server string, body DatabasesLinkDatabaseJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesLinkDatabaseRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesLinkDatabaseRequestWithBody constructs an http.Request for the DatabasesLinkDatabase method, with any body, and a specified content type
+func NewDatabasesLinkDatabaseRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.linkDatabase")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesListBackupsRequest calls the generic DatabasesListBackups builder with application/json body
+func NewDatabasesListBackupsRequest(server string, body DatabasesListBackupsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesListBackupsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesListBackupsRequestWithBody constructs an http.Request for the DatabasesListBackups method, with any body, and a specified content type
+func NewDatabasesListBackupsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.listBackups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesListDatabasesRequest calls the generic DatabasesListDatabases builder with application/json body
+func NewDatabasesListDatabasesRequest(server string, body DatabasesListDatabasesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesListDatabasesRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesListDatabasesRequestWithBody constructs an http.Request for the DatabasesListDatabases method, with any body, and a specified content type
+func NewDatabasesListDatabasesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.listDatabases")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesListOptionsRequest calls the generic DatabasesListOptions builder with application/json body
+func NewDatabasesListOptionsRequest(server string, body DatabasesListOptionsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesListOptionsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesListOptionsRequestWithBody constructs an http.Request for the DatabasesListOptions method, with any body, and a specified content type
+func NewDatabasesListOptionsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.listOptions")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesRestoreDatabaseRequest calls the generic DatabasesRestoreDatabase builder with application/json body
+func NewDatabasesRestoreDatabaseRequest(server string, body DatabasesRestoreDatabaseJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesRestoreDatabaseRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesRestoreDatabaseRequestWithBody constructs an http.Request for the DatabasesRestoreDatabase method, with any body, and a specified content type
+func NewDatabasesRestoreDatabaseRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.restoreDatabase")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesRotatePasswordRequest calls the generic DatabasesRotatePassword builder with application/json body
+func NewDatabasesRotatePasswordRequest(server string, body DatabasesRotatePasswordJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesRotatePasswordRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesRotatePasswordRequestWithBody constructs an http.Request for the DatabasesRotatePassword method, with any body, and a specified content type
+func NewDatabasesRotatePasswordRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.rotatePassword")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesUnlinkDatabaseRequest calls the generic DatabasesUnlinkDatabase builder with application/json body
+func NewDatabasesUnlinkDatabaseRequest(server string, body DatabasesUnlinkDatabaseJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesUnlinkDatabaseRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesUnlinkDatabaseRequestWithBody constructs an http.Request for the DatabasesUnlinkDatabase method, with any body, and a specified content type
+func NewDatabasesUnlinkDatabaseRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.unlinkDatabase")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesUpdateBackupScheduleRequest calls the generic DatabasesUpdateBackupSchedule builder with application/json body
+func NewDatabasesUpdateBackupScheduleRequest(server string, body DatabasesUpdateBackupScheduleJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesUpdateBackupScheduleRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesUpdateBackupScheduleRequestWithBody constructs an http.Request for the DatabasesUpdateBackupSchedule method, with any body, and a specified content type
+func NewDatabasesUpdateBackupScheduleRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.updateBackupSchedule")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDatabasesUpdateDatabaseRequest calls the generic DatabasesUpdateDatabase builder with application/json body
+func NewDatabasesUpdateDatabaseRequest(server string, body DatabasesUpdateDatabaseJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesUpdateDatabaseRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesUpdateDatabaseRequestWithBody constructs an http.Request for the DatabasesUpdateDatabase method, with any body, and a specified content type
+func NewDatabasesUpdateDatabaseRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.updateDatabase")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -12322,6 +15810,616 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with POST /v1/cli.startDeviceAuthorization (the `CliStartDeviceAuthorization` operationId).
 	CliStartDeviceAuthorizationWithResponse(ctx context.Context, body CliStartDeviceAuthorizationJSONRequestBody, reqEditors ...RequestEditorFn) (*CliStartDeviceAuthorizationResponse, error)
 
+	// DatabasesCreateBackupWithBodyWithResponse Create database backup
+	//
+	// Take a backup of a database now, in addition to the daily one.
+	//
+	// The backup runs in the background: it shows as `pending` in `databases.listBackups` until
+	// the database's server starts it, then `running`, and `completed` or `failed`. One manual
+	// backup runs at a time, and the database has to be ready. Manual backups are kept for the
+	// database's `backupRetentionDays` like the daily ones.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.createBackup (the `DatabasesCreateBackup` operationId).
+	DatabasesCreateBackupWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesCreateBackupResponse, error)
+
+	// DatabasesCreateBackupWithResponse Create database backup
+	//
+	// Take a backup of a database now, in addition to the daily one.
+	//
+	// The backup runs in the background: it shows as `pending` in `databases.listBackups` until
+	// the database's server starts it, then `running`, and `completed` or `failed`. One manual
+	// backup runs at a time, and the database has to be ready. Manual backups are kept for the
+	// database's `backupRetentionDays` like the daily ones.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.createBackup (the `DatabasesCreateBackup` operationId).
+	DatabasesCreateBackupWithResponse(ctx context.Context, body DatabasesCreateBackupJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesCreateBackupResponse, error)
+
+	// DatabasesCreateDatabaseWithBodyWithResponse Create database
+	//
+	// Create a managed database in a project.
+	//
+	// The database is created in the `provisioning` state. Teral generates its password and
+	// starts it in the background; poll `databases.getDatabase` until the status is `ready`.
+	// Its password and connection URL are available from `databases.getCredentials` once it is
+	// provisioned.
+	//
+	// Your plan decides how many databases you may have and which sizes you may use; see
+	// `databases.listOptions`. Exceeding either returns a 403.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.create_database`
+	// - `project.<project_id>.create_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
+	DatabasesCreateDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesCreateDatabaseResponse, error)
+
+	// DatabasesCreateDatabaseWithResponse Create database
+	//
+	// Create a managed database in a project.
+	//
+	// The database is created in the `provisioning` state. Teral generates its password and
+	// starts it in the background; poll `databases.getDatabase` until the status is `ready`.
+	// Its password and connection URL are available from `databases.getCredentials` once it is
+	// provisioned.
+	//
+	// Your plan decides how many databases you may have and which sizes you may use; see
+	// `databases.listOptions`. Exceeding either returns a 403.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.create_database`
+	// - `project.<project_id>.create_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
+	DatabasesCreateDatabaseWithResponse(ctx context.Context, body DatabasesCreateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesCreateDatabaseResponse, error)
+
+	// DatabasesCreateTunnelWithBodyWithResponse Create database tunnel
+	//
+	// Get a short-lived token to reach a database through its server's database proxy, the way
+	// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+	// connections until then; connections stay up after it expires.
+	//
+	// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+	// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+	// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+	// database still asks for its password.
+	//
+	// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+	// recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+	DatabasesCreateTunnelWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesCreateTunnelResponse, error)
+
+	// DatabasesCreateTunnelWithResponse Create database tunnel
+	//
+	// Get a short-lived token to reach a database through its server's database proxy, the way
+	// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+	// connections until then; connections stay up after it expires.
+	//
+	// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+	// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+	// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+	// database still asks for its password.
+	//
+	// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+	// recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+	DatabasesCreateTunnelWithResponse(ctx context.Context, body DatabasesCreateTunnelJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesCreateTunnelResponse, error)
+
+	// DatabasesDeleteDatabaseWithBodyWithResponse Delete database
+	//
+	// Delete a managed database, **data included**. This cannot be undone.
+	//
+	// Every link is removed together with its environment variable. The database shows as
+	// `deleting` until its server has removed it. Deleting a database that is already being
+	// deleted succeeds.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.delete_database`
+	// - `project.<project_id>.delete_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.deleteDatabase (the `DatabasesDeleteDatabase` operationId).
+	DatabasesDeleteDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesDeleteDatabaseResponse, error)
+
+	// DatabasesDeleteDatabaseWithResponse Delete database
+	//
+	// Delete a managed database, **data included**. This cannot be undone.
+	//
+	// Every link is removed together with its environment variable. The database shows as
+	// `deleting` until its server has removed it. Deleting a database that is already being
+	// deleted succeeds.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.delete_database`
+	// - `project.<project_id>.delete_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.deleteDatabase (the `DatabasesDeleteDatabase` operationId).
+	DatabasesDeleteDatabaseWithResponse(ctx context.Context, body DatabasesDeleteDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesDeleteDatabaseResponse, error)
+
+	// DatabasesGetCredentialsWithBodyWithResponse Get database credentials
+	//
+	// Read the password and connection URL of a managed database.
+	//
+	// The password exists once provisioning has generated it; until then this returns a 412.
+	// During a password rotation it returns the password being applied.
+	//
+	// Every call is recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.getCredentials (the `DatabasesGetCredentials` operationId).
+	DatabasesGetCredentialsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesGetCredentialsResponse, error)
+
+	// DatabasesGetCredentialsWithResponse Get database credentials
+	//
+	// Read the password and connection URL of a managed database.
+	//
+	// The password exists once provisioning has generated it; until then this returns a 412.
+	// During a password rotation it returns the password being applied.
+	//
+	// Every call is recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.getCredentials (the `DatabasesGetCredentials` operationId).
+	DatabasesGetCredentialsWithResponse(ctx context.Context, body DatabasesGetCredentialsJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesGetCredentialsResponse, error)
+
+	// DatabasesGetDatabaseWithBodyWithResponse Get database
+	//
+	// Get a managed database with its links. The password is not included; read it with
+	// `databases.getCredentials`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.getDatabase (the `DatabasesGetDatabase` operationId).
+	DatabasesGetDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesGetDatabaseResponse, error)
+
+	// DatabasesGetDatabaseWithResponse Get database
+	//
+	// Get a managed database with its links. The password is not included; read it with
+	// `databases.getCredentials`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.getDatabase (the `DatabasesGetDatabase` operationId).
+	DatabasesGetDatabaseWithResponse(ctx context.Context, body DatabasesGetDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesGetDatabaseResponse, error)
+
+	// DatabasesLinkDatabaseWithBodyWithResponse Link database
+	//
+	// Keep a database's connection URL in an environment variable of an app environment.
+	//
+	// Teral writes the variable as soon as the database has a password, replacing a variable of
+	// the same name, and rewrites it whenever the password rotates. The app picks it up on its
+	// next deployment. The app must be in the database's project.
+	//
+	// Linking also needs permission to set the environment's variables:
+	// `environment.*.set_environment_variables` or `environment.<environment_id>.set_environment_variables`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.linkDatabase (the `DatabasesLinkDatabase` operationId).
+	DatabasesLinkDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesLinkDatabaseResponse, error)
+
+	// DatabasesLinkDatabaseWithResponse Link database
+	//
+	// Keep a database's connection URL in an environment variable of an app environment.
+	//
+	// Teral writes the variable as soon as the database has a password, replacing a variable of
+	// the same name, and rewrites it whenever the password rotates. The app picks it up on its
+	// next deployment. The app must be in the database's project.
+	//
+	// Linking also needs permission to set the environment's variables:
+	// `environment.*.set_environment_variables` or `environment.<environment_id>.set_environment_variables`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.linkDatabase (the `DatabasesLinkDatabase` operationId).
+	DatabasesLinkDatabaseWithResponse(ctx context.Context, body DatabasesLinkDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesLinkDatabaseResponse, error)
+
+	// DatabasesListBackupsWithBodyWithResponse List database backups
+	//
+	// List a database's backups, newest first: the daily scheduled ones and the ones taken with
+	// `databases.createBackup`. Backups are kept for the database's `backupRetentionDays`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.listBackups (the `DatabasesListBackups` operationId).
+	DatabasesListBackupsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesListBackupsResponse, error)
+
+	// DatabasesListBackupsWithResponse List database backups
+	//
+	// List a database's backups, newest first: the daily scheduled ones and the ones taken with
+	// `databases.createBackup`. Backups are kept for the database's `backupRetentionDays`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.listBackups (the `DatabasesListBackups` operationId).
+	DatabasesListBackupsWithResponse(ctx context.Context, body DatabasesListBackupsJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesListBackupsResponse, error)
+
+	// DatabasesListDatabasesWithBodyWithResponse List databases
+	//
+	// List the workspace's managed databases, or one project's.
+	//
+	// Databases the root key may not read are left out.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.listDatabases (the `DatabasesListDatabases` operationId).
+	DatabasesListDatabasesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesListDatabasesResponse, error)
+
+	// DatabasesListDatabasesWithResponse List databases
+	//
+	// List the workspace's managed databases, or one project's.
+	//
+	// Databases the root key may not read are left out.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.listDatabases (the `DatabasesListDatabases` operationId).
+	DatabasesListDatabasesWithResponse(ctx context.Context, body DatabasesListDatabasesJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesListDatabasesResponse, error)
+
+	// DatabasesListOptionsWithBodyWithResponse List database options
+	//
+	// List the engines, versions and sizes a managed database can be created with, and the
+	// workspace's plan limits.
+	//
+	// Each size carries `allowed`: whether the workspace may create it on its current plan.
+	// `maxDatabases` and `databaseCount` tell how many more databases fit the plan.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	// - `project.*.create_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.listOptions (the `DatabasesListOptions` operationId).
+	DatabasesListOptionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesListOptionsResponse, error)
+
+	// DatabasesListOptionsWithResponse List database options
+	//
+	// List the engines, versions and sizes a managed database can be created with, and the
+	// workspace's plan limits.
+	//
+	// Each size carries `allowed`: whether the workspace may create it on its current plan.
+	// `maxDatabases` and `databaseCount` tell how many more databases fit the plan.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database`
+	// - `project.<project_id>.read_database`
+	// - `project.*.create_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.listOptions (the `DatabasesListOptions` operationId).
+	DatabasesListOptionsWithResponse(ctx context.Context, body DatabasesListOptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesListOptionsResponse, error)
+
+	// DatabasesRestoreDatabaseWithBodyWithResponse Restore database
+	//
+	// Create a new database from another database's backups. The source keeps running unchanged.
+	//
+	// Restore to one of three points:
+	// - the latest state: omit `targetTime` and `backupId`
+	// - the end of a backup: pass its `backupId` from `databases.listBackups`
+	// - any second within the retention: pass `targetTime`. This needs a plan with
+	//   `pointInTimeRecovery`, and the time must lie between the source's `earliestRestoreTime`
+	//   and now.
+	//
+	// The new database is created in the source's project with the source's engine, version,
+	// database name and user, and its own password (read it with `databases.getCredentials`). It
+	// counts against the plan's databases like a new one and shows as `provisioning` until the
+	// restore finished. It keeps the source's size and instance count unless given, and needs at
+	// least the source's storage.
+	//
+	// Besides the permission below, the root key needs `read_database` on the source database.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.create_database`
+	// - `project.<project_id>.create_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.restoreDatabase (the `DatabasesRestoreDatabase` operationId).
+	DatabasesRestoreDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesRestoreDatabaseResponse, error)
+
+	// DatabasesRestoreDatabaseWithResponse Restore database
+	//
+	// Create a new database from another database's backups. The source keeps running unchanged.
+	//
+	// Restore to one of three points:
+	// - the latest state: omit `targetTime` and `backupId`
+	// - the end of a backup: pass its `backupId` from `databases.listBackups`
+	// - any second within the retention: pass `targetTime`. This needs a plan with
+	//   `pointInTimeRecovery`, and the time must lie between the source's `earliestRestoreTime`
+	//   and now.
+	//
+	// The new database is created in the source's project with the source's engine, version,
+	// database name and user, and its own password (read it with `databases.getCredentials`). It
+	// counts against the plan's databases like a new one and shows as `provisioning` until the
+	// restore finished. It keeps the source's size and instance count unless given, and needs at
+	// least the source's storage.
+	//
+	// Besides the permission below, the root key needs `read_database` on the source database.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.create_database`
+	// - `project.<project_id>.create_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.restoreDatabase (the `DatabasesRestoreDatabase` operationId).
+	DatabasesRestoreDatabaseWithResponse(ctx context.Context, body DatabasesRestoreDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesRestoreDatabaseResponse, error)
+
+	// DatabasesRotatePasswordWithBodyWithResponse Rotate database password
+	//
+	// Generate a new password for the database's user.
+	//
+	// The rotation runs in the background: the database shows as `updating` until the new
+	// password is applied, and the old password stops working then. Every linked environment
+	// variable is rewritten with the new connection URL; linked apps pick it up on their next
+	// deployment.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.rotatePassword (the `DatabasesRotatePassword` operationId).
+	DatabasesRotatePasswordWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesRotatePasswordResponse, error)
+
+	// DatabasesRotatePasswordWithResponse Rotate database password
+	//
+	// Generate a new password for the database's user.
+	//
+	// The rotation runs in the background: the database shows as `updating` until the new
+	// password is applied, and the old password stops working then. Every linked environment
+	// variable is rewritten with the new connection URL; linked apps pick it up on their next
+	// deployment.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.rotatePassword (the `DatabasesRotatePassword` operationId).
+	DatabasesRotatePasswordWithResponse(ctx context.Context, body DatabasesRotatePasswordJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesRotatePasswordResponse, error)
+
+	// DatabasesUnlinkDatabaseWithBodyWithResponse Unlink database
+	//
+	// Stop keeping a database's connection URL in an environment variable.
+	//
+	// The variable stays unless `removeVariable` is true. Removing it also needs permission to
+	// remove the environment's variables: `environment.*.remove_environment_variables` or
+	// `environment.<environment_id>.remove_environment_variables`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.unlinkDatabase (the `DatabasesUnlinkDatabase` operationId).
+	DatabasesUnlinkDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesUnlinkDatabaseResponse, error)
+
+	// DatabasesUnlinkDatabaseWithResponse Unlink database
+	//
+	// Stop keeping a database's connection URL in an environment variable.
+	//
+	// The variable stays unless `removeVariable` is true. Removing it also needs permission to
+	// remove the environment's variables: `environment.*.remove_environment_variables` or
+	// `environment.<environment_id>.remove_environment_variables`.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.unlinkDatabase (the `DatabasesUnlinkDatabase` operationId).
+	DatabasesUnlinkDatabaseWithResponse(ctx context.Context, body DatabasesUnlinkDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesUnlinkDatabaseResponse, error)
+
+	// DatabasesUpdateBackupScheduleWithBodyWithResponse Update database backup schedule
+	//
+	// Move a database's daily backup to another hour (UTC). Changes are archived continuously in
+	// between, so the hour only decides when the daily base backup runs, for example outside the
+	// database's busiest time.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.updateBackupSchedule (the `DatabasesUpdateBackupSchedule` operationId).
+	DatabasesUpdateBackupScheduleWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesUpdateBackupScheduleResponse, error)
+
+	// DatabasesUpdateBackupScheduleWithResponse Update database backup schedule
+	//
+	// Move a database's daily backup to another hour (UTC). Changes are archived continuously in
+	// between, so the hour only decides when the daily base backup runs, for example outside the
+	// database's busiest time.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.updateBackupSchedule (the `DatabasesUpdateBackupSchedule` operationId).
+	DatabasesUpdateBackupScheduleWithResponse(ctx context.Context, body DatabasesUpdateBackupScheduleJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesUpdateBackupScheduleResponse, error)
+
+	// DatabasesUpdateDatabaseWithBodyWithResponse Update database
+	//
+	// Resize a database: move it to another size, change how many instances run it, or both.
+	//
+	// The change runs in the background: the database shows as `updating` until every instance
+	// runs the new size. With more than one instance the replicas are updated first and the
+	// primary switches over to one of them, so connections drop only briefly; a single instance
+	// restarts. Storage cannot shrink, so the new size needs at least as much storage as the
+	// current one. The database stays on its server, so the server needs room for the growth.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.updateDatabase (the `DatabasesUpdateDatabase` operationId).
+	DatabasesUpdateDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesUpdateDatabaseResponse, error)
+
+	// DatabasesUpdateDatabaseWithResponse Update database
+	//
+	// Resize a database: move it to another size, change how many instances run it, or both.
+	//
+	// The change runs in the background: the database shows as `updating` until every instance
+	// runs the new size. With more than one instance the replicas are updated first and the
+	// primary switches over to one of them, so connections drop only briefly; a single instance
+	// restarts. Storage cannot shrink, so the new size needs at least as much storage as the
+	// current one. The database stays on its server, so the server needs room for the growth.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.update_database`
+	// - `project.<project_id>.update_database`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.updateDatabase (the `DatabasesUpdateDatabase` operationId).
+	DatabasesUpdateDatabaseWithResponse(ctx context.Context, body DatabasesUpdateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesUpdateDatabaseResponse, error)
+
 	// DeployCreateDeploymentWithBodyWithResponse Create deployment
 	//
 	// **INTERNAL** - This endpoint is internal and may change without notice.
@@ -13513,6 +17611,9 @@ type ClientWithResponsesInterface interface {
 	// A cursor in ascending mode never expires, so a client can poll with it
 	// indefinitely; poll no faster than once per second.
 	//
+	// Logs are kept for the log retention of the workspace's plan. Older logs are
+	// not returned, whatever range the request asks for.
+	//
 	// **Required Permissions**
 	//
 	// Read access to deployments in the environment, for example
@@ -13531,6 +17632,9 @@ type ClientWithResponsesInterface interface {
 	// `order: asc` and a `since` timestamp, then keep passing the returned `cursor`.
 	// A cursor in ascending mode never expires, so a client can poll with it
 	// indefinitely; poll no faster than once per second.
+	//
+	// Logs are kept for the log retention of the workspace's plan. Older logs are
+	// not returned, whatever range the request asks for.
 	//
 	// **Required Permissions**
 	//
@@ -15149,6 +19253,1244 @@ func (r CliStartDeviceAuthorizationResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r CliStartDeviceAuthorizationResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesCreateBackupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesCreateBackupResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesCreateBackupResponse) GetJSON200() *V1DatabasesCreateBackupResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesCreateBackupResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesCreateBackupResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesCreateBackupResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesCreateBackupResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesCreateBackupResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesCreateBackupResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesCreateBackupResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesCreateBackupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesCreateBackupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesCreateBackupResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesCreateDatabaseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesCreateDatabaseResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ConflictErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *ServiceUnavailableErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesCreateDatabaseResponse) GetJSON200() *V1DatabasesCreateDatabaseResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesCreateDatabaseResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesCreateDatabaseResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesCreateDatabaseResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesCreateDatabaseResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r DatabasesCreateDatabaseResponse) GetJSON409() *ConflictErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesCreateDatabaseResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesCreateDatabaseResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r DatabasesCreateDatabaseResponse) GetJSON503() *ServiceUnavailableErrorResponse {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesCreateDatabaseResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesCreateDatabaseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesCreateDatabaseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesCreateDatabaseResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesCreateTunnelResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesCreateTunnelResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON200() *V1DatabasesCreateTunnelResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesCreateTunnelResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesCreateTunnelResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesCreateTunnelResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesCreateTunnelResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesDeleteDatabaseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesDeleteDatabaseResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesDeleteDatabaseResponse) GetJSON200() *V1DatabasesDeleteDatabaseResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesDeleteDatabaseResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesDeleteDatabaseResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesDeleteDatabaseResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesDeleteDatabaseResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesDeleteDatabaseResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesDeleteDatabaseResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesDeleteDatabaseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesDeleteDatabaseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesDeleteDatabaseResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesGetCredentialsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesGetCredentialsResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesGetCredentialsResponse) GetJSON200() *V1DatabasesGetCredentialsResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesGetCredentialsResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesGetCredentialsResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesGetCredentialsResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesGetCredentialsResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesGetCredentialsResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesGetCredentialsResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesGetCredentialsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesGetCredentialsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesGetCredentialsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesGetCredentialsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesGetDatabaseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesGetDatabaseResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesGetDatabaseResponse) GetJSON200() *V1DatabasesGetDatabaseResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesGetDatabaseResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesGetDatabaseResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesGetDatabaseResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesGetDatabaseResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesGetDatabaseResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesGetDatabaseResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesGetDatabaseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesGetDatabaseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesGetDatabaseResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesLinkDatabaseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesLinkDatabaseResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ConflictErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesLinkDatabaseResponse) GetJSON200() *V1DatabasesLinkDatabaseResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesLinkDatabaseResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesLinkDatabaseResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesLinkDatabaseResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesLinkDatabaseResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r DatabasesLinkDatabaseResponse) GetJSON409() *ConflictErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesLinkDatabaseResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesLinkDatabaseResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesLinkDatabaseResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesLinkDatabaseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesLinkDatabaseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesLinkDatabaseResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesListBackupsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesListBackupsResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesListBackupsResponse) GetJSON200() *V1DatabasesListBackupsResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesListBackupsResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesListBackupsResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesListBackupsResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesListBackupsResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesListBackupsResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesListBackupsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesListBackupsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesListBackupsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesListBackupsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesListDatabasesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesListDatabasesResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesListDatabasesResponse) GetJSON200() *V1DatabasesListDatabasesResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesListDatabasesResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesListDatabasesResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesListDatabasesResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesListDatabasesResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesListDatabasesResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesListDatabasesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesListDatabasesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesListDatabasesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesListDatabasesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesListOptionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesListOptionsResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesListOptionsResponse) GetJSON200() *V1DatabasesListOptionsResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesListOptionsResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesListOptionsResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesListOptionsResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesListOptionsResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesListOptionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesListOptionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesListOptionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesListOptionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesRestoreDatabaseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesRestoreDatabaseResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON409 the response for an HTTP 409 `application/json` response
+	JSON409 *ConflictErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *ServiceUnavailableErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesRestoreDatabaseResponse) GetJSON200() *V1DatabasesRestoreDatabaseResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesRestoreDatabaseResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesRestoreDatabaseResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesRestoreDatabaseResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesRestoreDatabaseResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON409 returns the response for an HTTP 409 `application/json` response
+func (r DatabasesRestoreDatabaseResponse) GetJSON409() *ConflictErrorResponse {
+	return r.JSON409
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesRestoreDatabaseResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesRestoreDatabaseResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r DatabasesRestoreDatabaseResponse) GetJSON503() *ServiceUnavailableErrorResponse {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesRestoreDatabaseResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesRestoreDatabaseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesRestoreDatabaseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesRestoreDatabaseResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesRotatePasswordResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesRotatePasswordResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesRotatePasswordResponse) GetJSON200() *V1DatabasesRotatePasswordResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesRotatePasswordResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesRotatePasswordResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesRotatePasswordResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesRotatePasswordResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesRotatePasswordResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesRotatePasswordResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesRotatePasswordResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesRotatePasswordResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesRotatePasswordResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesRotatePasswordResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesUnlinkDatabaseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesUnlinkDatabaseResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesUnlinkDatabaseResponse) GetJSON200() *V1DatabasesUnlinkDatabaseResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesUnlinkDatabaseResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesUnlinkDatabaseResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesUnlinkDatabaseResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesUnlinkDatabaseResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesUnlinkDatabaseResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesUnlinkDatabaseResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesUnlinkDatabaseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesUnlinkDatabaseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesUnlinkDatabaseResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesUpdateBackupScheduleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesUpdateBackupScheduleResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesUpdateBackupScheduleResponse) GetJSON200() *V1DatabasesUpdateBackupScheduleResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesUpdateBackupScheduleResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesUpdateBackupScheduleResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesUpdateBackupScheduleResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesUpdateBackupScheduleResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesUpdateBackupScheduleResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesUpdateBackupScheduleResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesUpdateBackupScheduleResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesUpdateBackupScheduleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesUpdateBackupScheduleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesUpdateBackupScheduleResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesUpdateDatabaseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesUpdateDatabaseResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *ServiceUnavailableErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesUpdateDatabaseResponse) GetJSON200() *V1DatabasesUpdateDatabaseResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesUpdateDatabaseResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesUpdateDatabaseResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesUpdateDatabaseResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesUpdateDatabaseResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesUpdateDatabaseResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesUpdateDatabaseResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r DatabasesUpdateDatabaseResponse) GetJSON503() *ServiceUnavailableErrorResponse {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesUpdateDatabaseResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesUpdateDatabaseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesUpdateDatabaseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesUpdateDatabaseResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -18711,6 +24053,796 @@ func (c *ClientWithResponses) CliStartDeviceAuthorizationWithResponse(ctx contex
 	return ParseCliStartDeviceAuthorizationResponse(rsp)
 }
 
+// DatabasesCreateBackupWithBodyWithResponse Create database backup
+//
+// Take a backup of a database now, in addition to the daily one.
+//
+// The backup runs in the background: it shows as `pending` in `databases.listBackups` until
+// the database's server starts it, then `running`, and `completed` or `failed`. One manual
+// backup runs at a time, and the database has to be ready. Manual backups are kept for the
+// database's `backupRetentionDays` like the daily ones.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.createBackup (the `DatabasesCreateBackup` operationId).
+func (c *ClientWithResponses) DatabasesCreateBackupWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesCreateBackupResponse, error) {
+	rsp, err := c.DatabasesCreateBackupWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesCreateBackupResponse(rsp)
+}
+
+// DatabasesCreateBackupWithResponse Create database backup
+//
+// Take a backup of a database now, in addition to the daily one.
+//
+// The backup runs in the background: it shows as `pending` in `databases.listBackups` until
+// the database's server starts it, then `running`, and `completed` or `failed`. One manual
+// backup runs at a time, and the database has to be ready. Manual backups are kept for the
+// database's `backupRetentionDays` like the daily ones.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.createBackup (the `DatabasesCreateBackup` operationId).
+func (c *ClientWithResponses) DatabasesCreateBackupWithResponse(ctx context.Context, body DatabasesCreateBackupJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesCreateBackupResponse, error) {
+	rsp, err := c.DatabasesCreateBackup(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesCreateBackupResponse(rsp)
+}
+
+// DatabasesCreateDatabaseWithBodyWithResponse Create database
+//
+// Create a managed database in a project.
+//
+// The database is created in the `provisioning` state. Teral generates its password and
+// starts it in the background; poll `databases.getDatabase` until the status is `ready`.
+// Its password and connection URL are available from `databases.getCredentials` once it is
+// provisioned.
+//
+// Your plan decides how many databases you may have and which sizes you may use; see
+// `databases.listOptions`. Exceeding either returns a 403.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.create_database`
+// - `project.<project_id>.create_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
+func (c *ClientWithResponses) DatabasesCreateDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesCreateDatabaseResponse, error) {
+	rsp, err := c.DatabasesCreateDatabaseWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesCreateDatabaseResponse(rsp)
+}
+
+// DatabasesCreateDatabaseWithResponse Create database
+//
+// Create a managed database in a project.
+//
+// The database is created in the `provisioning` state. Teral generates its password and
+// starts it in the background; poll `databases.getDatabase` until the status is `ready`.
+// Its password and connection URL are available from `databases.getCredentials` once it is
+// provisioned.
+//
+// Your plan decides how many databases you may have and which sizes you may use; see
+// `databases.listOptions`. Exceeding either returns a 403.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.create_database`
+// - `project.<project_id>.create_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
+func (c *ClientWithResponses) DatabasesCreateDatabaseWithResponse(ctx context.Context, body DatabasesCreateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesCreateDatabaseResponse, error) {
+	rsp, err := c.DatabasesCreateDatabase(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesCreateDatabaseResponse(rsp)
+}
+
+// DatabasesCreateTunnelWithBodyWithResponse Create database tunnel
+//
+// Get a short-lived token to reach a database through its server's database proxy, the way
+// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+// connections until then; connections stay up after it expires.
+//
+// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+// database still asks for its password.
+//
+// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+// recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+func (c *ClientWithResponses) DatabasesCreateTunnelWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesCreateTunnelResponse, error) {
+	rsp, err := c.DatabasesCreateTunnelWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesCreateTunnelResponse(rsp)
+}
+
+// DatabasesCreateTunnelWithResponse Create database tunnel
+//
+// Get a short-lived token to reach a database through its server's database proxy, the way
+// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+// connections until then; connections stay up after it expires.
+//
+// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+// database still asks for its password.
+//
+// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+// recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+func (c *ClientWithResponses) DatabasesCreateTunnelWithResponse(ctx context.Context, body DatabasesCreateTunnelJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesCreateTunnelResponse, error) {
+	rsp, err := c.DatabasesCreateTunnel(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesCreateTunnelResponse(rsp)
+}
+
+// DatabasesDeleteDatabaseWithBodyWithResponse Delete database
+//
+// Delete a managed database, **data included**. This cannot be undone.
+//
+// Every link is removed together with its environment variable. The database shows as
+// `deleting` until its server has removed it. Deleting a database that is already being
+// deleted succeeds.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.delete_database`
+// - `project.<project_id>.delete_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.deleteDatabase (the `DatabasesDeleteDatabase` operationId).
+func (c *ClientWithResponses) DatabasesDeleteDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesDeleteDatabaseResponse, error) {
+	rsp, err := c.DatabasesDeleteDatabaseWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesDeleteDatabaseResponse(rsp)
+}
+
+// DatabasesDeleteDatabaseWithResponse Delete database
+//
+// Delete a managed database, **data included**. This cannot be undone.
+//
+// Every link is removed together with its environment variable. The database shows as
+// `deleting` until its server has removed it. Deleting a database that is already being
+// deleted succeeds.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.delete_database`
+// - `project.<project_id>.delete_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.deleteDatabase (the `DatabasesDeleteDatabase` operationId).
+func (c *ClientWithResponses) DatabasesDeleteDatabaseWithResponse(ctx context.Context, body DatabasesDeleteDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesDeleteDatabaseResponse, error) {
+	rsp, err := c.DatabasesDeleteDatabase(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesDeleteDatabaseResponse(rsp)
+}
+
+// DatabasesGetCredentialsWithBodyWithResponse Get database credentials
+//
+// Read the password and connection URL of a managed database.
+//
+// The password exists once provisioning has generated it; until then this returns a 412.
+// During a password rotation it returns the password being applied.
+//
+// Every call is recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.getCredentials (the `DatabasesGetCredentials` operationId).
+func (c *ClientWithResponses) DatabasesGetCredentialsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesGetCredentialsResponse, error) {
+	rsp, err := c.DatabasesGetCredentialsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesGetCredentialsResponse(rsp)
+}
+
+// DatabasesGetCredentialsWithResponse Get database credentials
+//
+// Read the password and connection URL of a managed database.
+//
+// The password exists once provisioning has generated it; until then this returns a 412.
+// During a password rotation it returns the password being applied.
+//
+// Every call is recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.getCredentials (the `DatabasesGetCredentials` operationId).
+func (c *ClientWithResponses) DatabasesGetCredentialsWithResponse(ctx context.Context, body DatabasesGetCredentialsJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesGetCredentialsResponse, error) {
+	rsp, err := c.DatabasesGetCredentials(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesGetCredentialsResponse(rsp)
+}
+
+// DatabasesGetDatabaseWithBodyWithResponse Get database
+//
+// Get a managed database with its links. The password is not included; read it with
+// `databases.getCredentials`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.getDatabase (the `DatabasesGetDatabase` operationId).
+func (c *ClientWithResponses) DatabasesGetDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesGetDatabaseResponse, error) {
+	rsp, err := c.DatabasesGetDatabaseWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesGetDatabaseResponse(rsp)
+}
+
+// DatabasesGetDatabaseWithResponse Get database
+//
+// Get a managed database with its links. The password is not included; read it with
+// `databases.getCredentials`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.getDatabase (the `DatabasesGetDatabase` operationId).
+func (c *ClientWithResponses) DatabasesGetDatabaseWithResponse(ctx context.Context, body DatabasesGetDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesGetDatabaseResponse, error) {
+	rsp, err := c.DatabasesGetDatabase(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesGetDatabaseResponse(rsp)
+}
+
+// DatabasesLinkDatabaseWithBodyWithResponse Link database
+//
+// Keep a database's connection URL in an environment variable of an app environment.
+//
+// Teral writes the variable as soon as the database has a password, replacing a variable of
+// the same name, and rewrites it whenever the password rotates. The app picks it up on its
+// next deployment. The app must be in the database's project.
+//
+// Linking also needs permission to set the environment's variables:
+// `environment.*.set_environment_variables` or `environment.<environment_id>.set_environment_variables`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.linkDatabase (the `DatabasesLinkDatabase` operationId).
+func (c *ClientWithResponses) DatabasesLinkDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesLinkDatabaseResponse, error) {
+	rsp, err := c.DatabasesLinkDatabaseWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesLinkDatabaseResponse(rsp)
+}
+
+// DatabasesLinkDatabaseWithResponse Link database
+//
+// Keep a database's connection URL in an environment variable of an app environment.
+//
+// Teral writes the variable as soon as the database has a password, replacing a variable of
+// the same name, and rewrites it whenever the password rotates. The app picks it up on its
+// next deployment. The app must be in the database's project.
+//
+// Linking also needs permission to set the environment's variables:
+// `environment.*.set_environment_variables` or `environment.<environment_id>.set_environment_variables`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.linkDatabase (the `DatabasesLinkDatabase` operationId).
+func (c *ClientWithResponses) DatabasesLinkDatabaseWithResponse(ctx context.Context, body DatabasesLinkDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesLinkDatabaseResponse, error) {
+	rsp, err := c.DatabasesLinkDatabase(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesLinkDatabaseResponse(rsp)
+}
+
+// DatabasesListBackupsWithBodyWithResponse List database backups
+//
+// List a database's backups, newest first: the daily scheduled ones and the ones taken with
+// `databases.createBackup`. Backups are kept for the database's `backupRetentionDays`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.listBackups (the `DatabasesListBackups` operationId).
+func (c *ClientWithResponses) DatabasesListBackupsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesListBackupsResponse, error) {
+	rsp, err := c.DatabasesListBackupsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesListBackupsResponse(rsp)
+}
+
+// DatabasesListBackupsWithResponse List database backups
+//
+// List a database's backups, newest first: the daily scheduled ones and the ones taken with
+// `databases.createBackup`. Backups are kept for the database's `backupRetentionDays`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.listBackups (the `DatabasesListBackups` operationId).
+func (c *ClientWithResponses) DatabasesListBackupsWithResponse(ctx context.Context, body DatabasesListBackupsJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesListBackupsResponse, error) {
+	rsp, err := c.DatabasesListBackups(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesListBackupsResponse(rsp)
+}
+
+// DatabasesListDatabasesWithBodyWithResponse List databases
+//
+// List the workspace's managed databases, or one project's.
+//
+// Databases the root key may not read are left out.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.listDatabases (the `DatabasesListDatabases` operationId).
+func (c *ClientWithResponses) DatabasesListDatabasesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesListDatabasesResponse, error) {
+	rsp, err := c.DatabasesListDatabasesWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesListDatabasesResponse(rsp)
+}
+
+// DatabasesListDatabasesWithResponse List databases
+//
+// List the workspace's managed databases, or one project's.
+//
+// Databases the root key may not read are left out.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.listDatabases (the `DatabasesListDatabases` operationId).
+func (c *ClientWithResponses) DatabasesListDatabasesWithResponse(ctx context.Context, body DatabasesListDatabasesJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesListDatabasesResponse, error) {
+	rsp, err := c.DatabasesListDatabases(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesListDatabasesResponse(rsp)
+}
+
+// DatabasesListOptionsWithBodyWithResponse List database options
+//
+// List the engines, versions and sizes a managed database can be created with, and the
+// workspace's plan limits.
+//
+// Each size carries `allowed`: whether the workspace may create it on its current plan.
+// `maxDatabases` and `databaseCount` tell how many more databases fit the plan.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+// - `project.*.create_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.listOptions (the `DatabasesListOptions` operationId).
+func (c *ClientWithResponses) DatabasesListOptionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesListOptionsResponse, error) {
+	rsp, err := c.DatabasesListOptionsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesListOptionsResponse(rsp)
+}
+
+// DatabasesListOptionsWithResponse List database options
+//
+// List the engines, versions and sizes a managed database can be created with, and the
+// workspace's plan limits.
+//
+// Each size carries `allowed`: whether the workspace may create it on its current plan.
+// `maxDatabases` and `databaseCount` tell how many more databases fit the plan.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database`
+// - `project.<project_id>.read_database`
+// - `project.*.create_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.listOptions (the `DatabasesListOptions` operationId).
+func (c *ClientWithResponses) DatabasesListOptionsWithResponse(ctx context.Context, body DatabasesListOptionsJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesListOptionsResponse, error) {
+	rsp, err := c.DatabasesListOptions(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesListOptionsResponse(rsp)
+}
+
+// DatabasesRestoreDatabaseWithBodyWithResponse Restore database
+//
+// Create a new database from another database's backups. The source keeps running unchanged.
+//
+// Restore to one of three points:
+//   - the latest state: omit `targetTime` and `backupId`
+//   - the end of a backup: pass its `backupId` from `databases.listBackups`
+//   - any second within the retention: pass `targetTime`. This needs a plan with
+//     `pointInTimeRecovery`, and the time must lie between the source's `earliestRestoreTime`
+//     and now.
+//
+// The new database is created in the source's project with the source's engine, version,
+// database name and user, and its own password (read it with `databases.getCredentials`). It
+// counts against the plan's databases like a new one and shows as `provisioning` until the
+// restore finished. It keeps the source's size and instance count unless given, and needs at
+// least the source's storage.
+//
+// Besides the permission below, the root key needs `read_database` on the source database.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.create_database`
+// - `project.<project_id>.create_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.restoreDatabase (the `DatabasesRestoreDatabase` operationId).
+func (c *ClientWithResponses) DatabasesRestoreDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesRestoreDatabaseResponse, error) {
+	rsp, err := c.DatabasesRestoreDatabaseWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesRestoreDatabaseResponse(rsp)
+}
+
+// DatabasesRestoreDatabaseWithResponse Restore database
+//
+// Create a new database from another database's backups. The source keeps running unchanged.
+//
+// Restore to one of three points:
+//   - the latest state: omit `targetTime` and `backupId`
+//   - the end of a backup: pass its `backupId` from `databases.listBackups`
+//   - any second within the retention: pass `targetTime`. This needs a plan with
+//     `pointInTimeRecovery`, and the time must lie between the source's `earliestRestoreTime`
+//     and now.
+//
+// The new database is created in the source's project with the source's engine, version,
+// database name and user, and its own password (read it with `databases.getCredentials`). It
+// counts against the plan's databases like a new one and shows as `provisioning` until the
+// restore finished. It keeps the source's size and instance count unless given, and needs at
+// least the source's storage.
+//
+// Besides the permission below, the root key needs `read_database` on the source database.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.create_database`
+// - `project.<project_id>.create_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.restoreDatabase (the `DatabasesRestoreDatabase` operationId).
+func (c *ClientWithResponses) DatabasesRestoreDatabaseWithResponse(ctx context.Context, body DatabasesRestoreDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesRestoreDatabaseResponse, error) {
+	rsp, err := c.DatabasesRestoreDatabase(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesRestoreDatabaseResponse(rsp)
+}
+
+// DatabasesRotatePasswordWithBodyWithResponse Rotate database password
+//
+// Generate a new password for the database's user.
+//
+// The rotation runs in the background: the database shows as `updating` until the new
+// password is applied, and the old password stops working then. Every linked environment
+// variable is rewritten with the new connection URL; linked apps pick it up on their next
+// deployment.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.rotatePassword (the `DatabasesRotatePassword` operationId).
+func (c *ClientWithResponses) DatabasesRotatePasswordWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesRotatePasswordResponse, error) {
+	rsp, err := c.DatabasesRotatePasswordWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesRotatePasswordResponse(rsp)
+}
+
+// DatabasesRotatePasswordWithResponse Rotate database password
+//
+// Generate a new password for the database's user.
+//
+// The rotation runs in the background: the database shows as `updating` until the new
+// password is applied, and the old password stops working then. Every linked environment
+// variable is rewritten with the new connection URL; linked apps pick it up on their next
+// deployment.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.rotatePassword (the `DatabasesRotatePassword` operationId).
+func (c *ClientWithResponses) DatabasesRotatePasswordWithResponse(ctx context.Context, body DatabasesRotatePasswordJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesRotatePasswordResponse, error) {
+	rsp, err := c.DatabasesRotatePassword(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesRotatePasswordResponse(rsp)
+}
+
+// DatabasesUnlinkDatabaseWithBodyWithResponse Unlink database
+//
+// Stop keeping a database's connection URL in an environment variable.
+//
+// The variable stays unless `removeVariable` is true. Removing it also needs permission to
+// remove the environment's variables: `environment.*.remove_environment_variables` or
+// `environment.<environment_id>.remove_environment_variables`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.unlinkDatabase (the `DatabasesUnlinkDatabase` operationId).
+func (c *ClientWithResponses) DatabasesUnlinkDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesUnlinkDatabaseResponse, error) {
+	rsp, err := c.DatabasesUnlinkDatabaseWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesUnlinkDatabaseResponse(rsp)
+}
+
+// DatabasesUnlinkDatabaseWithResponse Unlink database
+//
+// Stop keeping a database's connection URL in an environment variable.
+//
+// The variable stays unless `removeVariable` is true. Removing it also needs permission to
+// remove the environment's variables: `environment.*.remove_environment_variables` or
+// `environment.<environment_id>.remove_environment_variables`.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.unlinkDatabase (the `DatabasesUnlinkDatabase` operationId).
+func (c *ClientWithResponses) DatabasesUnlinkDatabaseWithResponse(ctx context.Context, body DatabasesUnlinkDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesUnlinkDatabaseResponse, error) {
+	rsp, err := c.DatabasesUnlinkDatabase(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesUnlinkDatabaseResponse(rsp)
+}
+
+// DatabasesUpdateBackupScheduleWithBodyWithResponse Update database backup schedule
+//
+// Move a database's daily backup to another hour (UTC). Changes are archived continuously in
+// between, so the hour only decides when the daily base backup runs, for example outside the
+// database's busiest time.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.updateBackupSchedule (the `DatabasesUpdateBackupSchedule` operationId).
+func (c *ClientWithResponses) DatabasesUpdateBackupScheduleWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesUpdateBackupScheduleResponse, error) {
+	rsp, err := c.DatabasesUpdateBackupScheduleWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesUpdateBackupScheduleResponse(rsp)
+}
+
+// DatabasesUpdateBackupScheduleWithResponse Update database backup schedule
+//
+// Move a database's daily backup to another hour (UTC). Changes are archived continuously in
+// between, so the hour only decides when the daily base backup runs, for example outside the
+// database's busiest time.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.updateBackupSchedule (the `DatabasesUpdateBackupSchedule` operationId).
+func (c *ClientWithResponses) DatabasesUpdateBackupScheduleWithResponse(ctx context.Context, body DatabasesUpdateBackupScheduleJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesUpdateBackupScheduleResponse, error) {
+	rsp, err := c.DatabasesUpdateBackupSchedule(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesUpdateBackupScheduleResponse(rsp)
+}
+
+// DatabasesUpdateDatabaseWithBodyWithResponse Update database
+//
+// Resize a database: move it to another size, change how many instances run it, or both.
+//
+// The change runs in the background: the database shows as `updating` until every instance
+// runs the new size. With more than one instance the replicas are updated first and the
+// primary switches over to one of them, so connections drop only briefly; a single instance
+// restarts. Storage cannot shrink, so the new size needs at least as much storage as the
+// current one. The database stays on its server, so the server needs room for the growth.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.updateDatabase (the `DatabasesUpdateDatabase` operationId).
+func (c *ClientWithResponses) DatabasesUpdateDatabaseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesUpdateDatabaseResponse, error) {
+	rsp, err := c.DatabasesUpdateDatabaseWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesUpdateDatabaseResponse(rsp)
+}
+
+// DatabasesUpdateDatabaseWithResponse Update database
+//
+// Resize a database: move it to another size, change how many instances run it, or both.
+//
+// The change runs in the background: the database shows as `updating` until every instance
+// runs the new size. With more than one instance the replicas are updated first and the
+// primary switches over to one of them, so connections drop only briefly; a single instance
+// restarts. Storage cannot shrink, so the new size needs at least as much storage as the
+// current one. The database stays on its server, so the server needs room for the growth.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.update_database`
+// - `project.<project_id>.update_database`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.updateDatabase (the `DatabasesUpdateDatabase` operationId).
+func (c *ClientWithResponses) DatabasesUpdateDatabaseWithResponse(ctx context.Context, body DatabasesUpdateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesUpdateDatabaseResponse, error) {
+	rsp, err := c.DatabasesUpdateDatabase(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesUpdateDatabaseResponse(rsp)
+}
+
 // DeployCreateDeploymentWithBodyWithResponse Create deployment
 //
 // **INTERNAL** - This endpoint is internal and may change without notice.
@@ -20213,6 +26345,9 @@ func (c *ClientWithResponses) LogsGetBuildLogsWithResponse(ctx context.Context, 
 // A cursor in ascending mode never expires, so a client can poll with it
 // indefinitely; poll no faster than once per second.
 //
+// Logs are kept for the log retention of the workspace's plan. Older logs are
+// not returned, whatever range the request asks for.
+//
 // **Required Permissions**
 //
 // Read access to deployments in the environment, for example
@@ -20237,6 +26372,9 @@ func (c *ClientWithResponses) LogsQueryRuntimeLogsWithBodyWithResponse(ctx conte
 // `order: asc` and a `since` timestamp, then keep passing the returned `cursor`.
 // A cursor in ascending mode never expires, so a client can poll with it
 // indefinitely; poll no faster than once per second.
+//
+// Logs are kept for the log retention of the workspace's plan. Older logs are
+// not returned, whatever range the request asks for.
 //
 // **Required Permissions**
 //
@@ -21650,6 +27788,1019 @@ func ParseCliStartDeviceAuthorizationResponse(rsp *http.Response) (*CliStartDevi
 			return nil, err
 		}
 		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesCreateBackupResponse parses an HTTP response from a DatabasesCreateBackupWithResponse call
+func ParseDatabasesCreateBackupResponse(rsp *http.Response) (*DatabasesCreateBackupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesCreateBackupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesCreateBackupResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesCreateDatabaseResponse parses an HTTP response from a DatabasesCreateDatabaseWithResponse call
+func ParseDatabasesCreateDatabaseResponse(rsp *http.Response) (*DatabasesCreateDatabaseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesCreateDatabaseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesCreateDatabaseResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ConflictErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesCreateTunnelResponse parses an HTTP response from a DatabasesCreateTunnelWithResponse call
+func ParseDatabasesCreateTunnelResponse(rsp *http.Response) (*DatabasesCreateTunnelResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesCreateTunnelResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesCreateTunnelResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesDeleteDatabaseResponse parses an HTTP response from a DatabasesDeleteDatabaseWithResponse call
+func ParseDatabasesDeleteDatabaseResponse(rsp *http.Response) (*DatabasesDeleteDatabaseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesDeleteDatabaseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesDeleteDatabaseResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesGetCredentialsResponse parses an HTTP response from a DatabasesGetCredentialsWithResponse call
+func ParseDatabasesGetCredentialsResponse(rsp *http.Response) (*DatabasesGetCredentialsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesGetCredentialsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesGetCredentialsResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesGetDatabaseResponse parses an HTTP response from a DatabasesGetDatabaseWithResponse call
+func ParseDatabasesGetDatabaseResponse(rsp *http.Response) (*DatabasesGetDatabaseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesGetDatabaseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesGetDatabaseResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesLinkDatabaseResponse parses an HTTP response from a DatabasesLinkDatabaseWithResponse call
+func ParseDatabasesLinkDatabaseResponse(rsp *http.Response) (*DatabasesLinkDatabaseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesLinkDatabaseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesLinkDatabaseResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ConflictErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesListBackupsResponse parses an HTTP response from a DatabasesListBackupsWithResponse call
+func ParseDatabasesListBackupsResponse(rsp *http.Response) (*DatabasesListBackupsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesListBackupsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesListBackupsResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesListDatabasesResponse parses an HTTP response from a DatabasesListDatabasesWithResponse call
+func ParseDatabasesListDatabasesResponse(rsp *http.Response) (*DatabasesListDatabasesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesListDatabasesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesListDatabasesResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesListOptionsResponse parses an HTTP response from a DatabasesListOptionsWithResponse call
+func ParseDatabasesListOptionsResponse(rsp *http.Response) (*DatabasesListOptionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesListOptionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesListOptionsResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesRestoreDatabaseResponse parses an HTTP response from a DatabasesRestoreDatabaseWithResponse call
+func ParseDatabasesRestoreDatabaseResponse(rsp *http.Response) (*DatabasesRestoreDatabaseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesRestoreDatabaseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesRestoreDatabaseResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest ConflictErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesRotatePasswordResponse parses an HTTP response from a DatabasesRotatePasswordWithResponse call
+func ParseDatabasesRotatePasswordResponse(rsp *http.Response) (*DatabasesRotatePasswordResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesRotatePasswordResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesRotatePasswordResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesUnlinkDatabaseResponse parses an HTTP response from a DatabasesUnlinkDatabaseWithResponse call
+func ParseDatabasesUnlinkDatabaseResponse(rsp *http.Response) (*DatabasesUnlinkDatabaseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesUnlinkDatabaseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesUnlinkDatabaseResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesUpdateBackupScheduleResponse parses an HTTP response from a DatabasesUpdateBackupScheduleWithResponse call
+func ParseDatabasesUpdateBackupScheduleResponse(rsp *http.Response) (*DatabasesUpdateBackupScheduleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesUpdateBackupScheduleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesUpdateBackupScheduleResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesUpdateDatabaseResponse parses an HTTP response from a DatabasesUpdateDatabaseWithResponse call
+func ParseDatabasesUpdateDatabaseResponse(rsp *http.Response) (*DatabasesUpdateDatabaseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesUpdateDatabaseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesUpdateDatabaseResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
 
 	}
 

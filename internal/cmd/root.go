@@ -153,7 +153,7 @@ In CI, set TERAL_API_KEY instead of logging in.`,
 	}
 	add("start", newLoginCmd(a), newInitCmd(a), newLinkCmd(a), newUnlinkCmd(a), newStatusCmd(a))
 	add("deploy", newUpCmd(a), newDeployCmd(a), newDeploymentsCmd(a), newLogsCmd(a), newEnvCmd(a), newRunCmd(a), newOpenCmd(a))
-	add("manage", newProjectsCmd(a), newAppsCmd(a), newDomainsCmd(a), newKeysCmd(a), newConfigCmd(a))
+	add("manage", newProjectsCmd(a), newAppsCmd(a), newDomainsCmd(a), newDatabasesCmd(a), newKeysCmd(a), newConfigCmd(a))
 	add("account", newLogoutCmd(a), newWhoamiCmd(a), newWorkspaceCmd(a), newSessionsCmd(a))
 	root.AddCommand(newVersionCmd(a), newDocsCmd(a), newUpgradeCmd(a))
 	root.SetHelpCommandGroupID("account")
