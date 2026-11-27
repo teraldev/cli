@@ -33,7 +33,7 @@ project (from --project or the directory's link) or by its id (db_…).`,
 	}
 	cmd.AddCommand(
 		newDBListCmd(a), newDBCreateCmd(a), newDBGetCmd(a), newDBDeleteCmd(a), newDBResizeCmd(a), newDBSizesCmd(a),
-		newDBCredentialsCmd(a), newDBRotateCmd(a), newDBConnectCmd(a),
+		newDBCredentialsCmd(a), newDBRotateCmd(a), newDBConnectCmd(a), newDBTunnelCmd(a),
 		newDBLinkCmd(a), newDBUnlinkCmd(a),
 		newDBBackupsCmd(a), newDBBackupCmd(a), newDBBackupScheduleCmd(a), newDBRestoreCmd(a),
 	)
@@ -427,14 +427,16 @@ and use it from their next deployment; other clients must update theirs.`,
 }
 
 func newDBConnectCmd(a *App) *cobra.Command {
-	return &cobra.Command{
+	var useTunnel bool
+	cmd := &cobra.Command{
 		Use:   "connect <db> [-- psql-args...]",
 		Short: "Open a psql shell on a database",
 		Long: `Fetch the database's credentials and start psql with its connection URL.
-psql must be installed; arguments after -- are passed to it. The database must
-be reachable from this machine; a tunnel for databases without public access
-is coming later. Reading the credentials is recorded in the audit log.`,
-		Example: "  teral db connect main\n  teral db connect main -- -c 'select now()'",
+psql must be installed; arguments after -- are passed to it. With --tunnel,
+psql connects through a tunnel on a random local port (see "teral db tunnel")
+instead of directly. Reading the credentials and opening a tunnel are
+recorded in the audit log.`,
+		Example: "  teral db connect main\n  teral db connect main --tunnel\n  teral db connect main -- -c 'select now()'",
 		Args:    cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -442,7 +444,11 @@ is coming later. Reading the credentials is recorded in the audit log.`,
 			if err != nil {
 				return err
 			}
-			creds, err := a.dbCredentials(ctx, c, args[0])
+			project, err := a.dbProject(ctx, c, args[0])
+			if err != nil {
+				return err
+			}
+			creds, err := dbCredentialsIn(ctx, c, project, args[0])
 			if err != nil {
 				return err
 			}
@@ -456,9 +462,31 @@ is coming later. Reading the credentials is recorded in the audit log.`,
 					Hint:    "Install the Postgres client: `brew install libpq` (macOS), `apt install postgresql-client` (Debian, Ubuntu), or see https://www.postgresql.org/download/.",
 				}
 			}
-			a.IO.Info("Connecting to %s as %s %s", a.IO.ErrTheme.Bold.Render(creds.Database), creds.Username, a.IO.ErrTheme.Muted.Render("(recorded in the audit log)"))
-			child := exec.Command(psql, append([]string{creds.Url}, args[1:]...)...)
-			child.Stdin, child.Stdout, child.Stderr = a.IO.In, a.IO.Out, a.IO.Err
+
+			connURL, env, via := creds.Url, os.Environ(), ""
+			if useTunnel {
+				tun, err := a.newTunnel(ctx, c, project, args[0])
+				if err != nil {
+					return err
+				}
+				ln, err := listenTunnel("127.0.0.1", 0, true)
+				if err != nil {
+					return err
+				}
+				tctx, cancel := context.WithCancel(ctx)
+				served := make(chan error, 1)
+				go func() { served <- tun.Serve(tctx, ln) }()
+				defer func() { cancel(); <-served }()
+				// The password goes through the environment, not psql's
+				// command line, where other local users could see it.
+				connURL = tunnelURL(creds.Username, "", ln.Addr().String(), creds.Database)
+				env = append(env, "PGPASSWORD="+creds.Password)
+				via = " through a tunnel"
+			}
+
+			a.IO.Info("Connecting to %s as %s%s %s", a.IO.ErrTheme.Bold.Render(creds.Database), creds.Username, via, a.IO.ErrTheme.Muted.Render("(recorded in the audit log)"))
+			child := exec.Command(psql, append([]string{connURL}, args[1:]...)...)
+			child.Stdin, child.Stdout, child.Stderr, child.Env = a.IO.In, a.IO.Out, a.IO.Err, env
 			// psql handles Ctrl+C itself (cancels the query); don't die first.
 			signal.Ignore(os.Interrupt)
 			defer signal.Reset(os.Interrupt)
@@ -472,6 +500,8 @@ is coming later. Reading the credentials is recorded in the audit log.`,
 			return nil
 		},
 	}
+	cmd.Flags().BoolVar(&useTunnel, "tunnel", false, "Connect through a tunnel authenticated with your Teral sign-in")
+	return cmd
 }
 
 func newDBLinkCmd(a *App) *cobra.Command {
@@ -800,6 +830,10 @@ func (a *App) dbCredentials(ctx context.Context, c *client.Client, ref string) (
 	if err != nil {
 		return nil, err
 	}
+	return dbCredentialsIn(ctx, c, project, ref)
+}
+
+func dbCredentialsIn(ctx context.Context, c *client.Client, project *string, ref string) (*api.V1DatabasesGetCredentialsResponseData, error) {
 	res, err := client.Call[api.V1DatabasesGetCredentialsResponseBody](ctx, c, func(ctx context.Context, cl *api.Client) (*http.Response, error) {
 		return cl.DatabasesGetCredentials(ctx, api.V1DatabasesGetCredentialsRequestBody{Project: project, Database: ref})
 	})

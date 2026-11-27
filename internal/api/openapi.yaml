@@ -807,6 +807,36 @@ components:
                 - Retrying the request after a short delay may succeed
                 - If the error persists, the service may be undergoing maintenance
                 - Contact Teral support if the issue continues
+        V1DatabasesCreateTunnelRequestBody:
+            type: object
+            required:
+                - database
+            properties:
+                project:
+                    allOf:
+                        - "$ref": "#/components/schemas/ResourceIdentifier"
+                    description: |
+                        The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+                database:
+                    type: string
+                    minLength: 1
+                    maxLength: 255
+                    pattern: "^[a-zA-Z0-9_-]+$"
+                    description: |
+                        The database's id, or its name together with `project`.
+                    example: main
+            additionalProperties: false
+        V1DatabasesCreateTunnelResponseBody:
+            type: object
+            required:
+                - meta
+                - data
+            properties:
+                meta:
+                    "$ref": "#/components/schemas/Meta"
+                data:
+                    "$ref": "#/components/schemas/V1DatabasesCreateTunnelResponseData"
+            additionalProperties: false
         V1DatabasesDeleteDatabaseRequestBody:
             type: object
             required:
@@ -3497,6 +3527,40 @@ components:
                 A link keeps a database's connection URL in an environment variable of an app environment.
                 Teral rewrites the variable when the password rotates; linked apps pick up the new value on
                 their next deployment.
+        V1DatabasesCreateTunnelResponseData:
+            type: object
+            required:
+                - token
+                - host
+                - port
+                - expiresAt
+            properties:
+                token:
+                    type: string
+                    description: |
+                        The signed tunnel token. After a TLS handshake with `host` (as the server name) and the
+                        ALPN protocol `teral-tunnel`, send `TERAL-TUNNEL <token>` and a newline; the database
+                        proxy answers `OK` or `ERR <reason>`, each on its own line. After `OK` the connection
+                        carries the Postgres protocol without its own TLS. Treat the token as a secret.
+                    example: your-tunnel-token
+                host:
+                    type: string
+                    description: The database's host name, used for the connection and as the TLS server name.
+                    example: pg-a1b2c3d4.db.teral.dev
+                port:
+                    type: integer
+                    format: int32
+                    description: The port of the database proxy.
+                    example: 5432
+                expiresAt:
+                    type: integer
+                    format: int64
+                    description: |
+                        Unix timestamp in milliseconds after which the token opens no new connections.
+                        Connections opened before stay up.
+                    example: 1704068100000
+            additionalProperties: false
+            description: A short-lived token to open tunnels to a database through its server's proxy.
         V1DatabasesGetCredentialsResponseData:
             type: object
             required:
@@ -7645,6 +7709,187 @@ paths:
             tags:
                 - databases
             x-speakeasy-name-override: createDatabase
+            x-teral-idempotency: not-idempotent
+    /v1/databases.createTunnel:
+        post:
+            description: |
+                Get a short-lived token to reach a database through its server's database proxy, the way
+                `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+                connections until then; connections stay up after it expires.
+
+                A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+                sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+                line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+                database still asks for its password.
+
+                A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+                recorded in the workspace's audit log.
+
+                **Required Permissions**
+
+                Your root key must have one of the following permissions:
+                - `project.*.read_database_credentials`
+                - `project.<project_id>.read_database_credentials`
+            operationId: databases.createTunnel
+            requestBody:
+                content:
+                    application/json:
+                        examples:
+                            byId:
+                                summary: Open a tunnel by id
+                                value:
+                                    database: db_1234abcd
+                            byName:
+                                summary: Open a tunnel by name
+                                value:
+                                    database: main
+                                    project: payments
+                        schema:
+                            $ref: '#/components/schemas/V1DatabasesCreateTunnelRequestBody'
+                required: true
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            examples:
+                                tunnel:
+                                    summary: A tunnel token
+                                    value:
+                                        data:
+                                            expiresAt: 1704068100000
+                                            host: pg-a1b2c3d4.db.teral.dev
+                                            port: 5432
+                                            token: your-tunnel-token
+                                        meta:
+                                            requestId: req_1234abcd
+                            schema:
+                                $ref: '#/components/schemas/V1DatabasesCreateTunnelResponseBody'
+                    description: |
+                        The tunnel token and where to use it.
+                "400":
+                    content:
+                        application/json:
+                            examples:
+                                invalidBody:
+                                    summary: Invalid request body
+                                    value:
+                                        error:
+                                            detail: The request body is invalid.
+                                            status: 400
+                                            title: Bad Request
+                                            type: https://docs.teral.dev/errors/teral/application/invalid_input
+                                        meta:
+                                            requestId: req_1234abcd
+                            schema:
+                                $ref: '#/components/schemas/BadRequestErrorResponse'
+                    description: |
+                        Bad request
+                "401":
+                    content:
+                        application/json:
+                            examples:
+                                invalidRootKey:
+                                    summary: Root key not found
+                                    value:
+                                        error:
+                                            detail: The provided root key is invalid.
+                                            status: 401
+                                            title: Unauthorized
+                                            type: unauthorized
+                                        meta:
+                                            requestId: req_1234abcd
+                            schema:
+                                $ref: '#/components/schemas/UnauthorizedErrorResponse'
+                    description: |
+                        Unauthorized
+                "403":
+                    content:
+                        application/json:
+                            examples:
+                                notEnabled:
+                                    summary: Managed databases not enabled
+                                    value:
+                                        error:
+                                            detail: Managed databases are in early access and not enabled for this workspace yet.
+                                            status: 403
+                                            title: Forbidden
+                                            type: https://docs.teral.dev/errors/teral/auth/forbidden
+                                        meta:
+                                            requestId: req_1234abcd
+                            schema:
+                                $ref: '#/components/schemas/ForbiddenErrorResponse'
+                    description: |
+                        Forbidden - Managed databases are not enabled for this workspace, the root key or its workspace is disabled, or the key lacks the required permission.
+                "404":
+                    content:
+                        application/json:
+                            examples:
+                                databaseNotFound:
+                                    summary: Database not found
+                                    value:
+                                        error:
+                                            detail: The requested database does not exist.
+                                            status: 404
+                                            title: Not Found
+                                            type: https://docs.teral.dev/errors/teral/data/database_not_found
+                                        meta:
+                                            requestId: req_1234abcd
+                            schema:
+                                $ref: '#/components/schemas/NotFoundErrorResponse'
+                    description: |
+                        Not Found - The database or project does not exist in your workspace, or your root key may not access it.
+                "412":
+                    content:
+                        application/json:
+                            examples:
+                                notEnabled:
+                                    summary: Tunnels not enabled
+                                    value:
+                                        error:
+                                            detail: Tunnels are not enabled.
+                                            status: 412
+                                            title: Precondition Failed
+                                            type: https://docs.teral.dev/errors/teral/application/precondition_failed
+                                        meta:
+                                            requestId: req_1234abcd
+                                notReady:
+                                    summary: Database not ready
+                                    value:
+                                        error:
+                                            detail: The database is not ready; open a tunnel once it is.
+                                            status: 412
+                                            title: Precondition Failed
+                                            type: https://docs.teral.dev/errors/teral/application/precondition_failed
+                                        meta:
+                                            requestId: req_1234abcd
+                            schema:
+                                $ref: '#/components/schemas/PreconditionFailedErrorResponse'
+                    description: |
+                        Precondition Failed - Tunnels are not enabled, or the database is not ready, is being deleted, or is not a Postgres database.
+                "500":
+                    content:
+                        application/json:
+                            examples:
+                                internalError:
+                                    summary: Unexpected server error
+                                    value:
+                                        error:
+                                            detail: An unexpected error occurred. Contact support@teral.dev with the requestId.
+                                            status: 500
+                                            title: Internal Server Error
+                                            type: internal-server-error
+                                        meta:
+                                            requestId: req_1234abcd
+                            schema:
+                                $ref: '#/components/schemas/InternalServerErrorResponse'
+                    description: |
+                        Internal server error
+            security:
+                - apiKey: []
+            summary: Create database tunnel
+            tags:
+                - databases
+            x-speakeasy-name-override: createTunnel
             x-teral-idempotency: not-idempotent
     /v1/databases.deleteDatabase:
         post:

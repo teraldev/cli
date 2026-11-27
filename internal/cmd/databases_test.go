@@ -23,6 +23,7 @@ type fakeDBAPI struct {
 	bodies     map[string][]map[string]any
 	getCalls   int
 	backupList int
+	tunnelPort int
 }
 
 func newFakeDBAPI(t *testing.T) *fakeDBAPI {
@@ -133,6 +134,8 @@ func (f *fakeDBAPI) serve(w http.ResponseWriter, r *http.Request) {
 		})
 	case "databases.createBackup":
 		reply(map[string]any{"id": "dbb_2", "kind": "manual", "status": "pending", "createdAt": 2})
+	case "databases.createTunnel":
+		reply(map[string]any{"token": fakeTunnelToken, "host": "example.com", "port": f.tunnelPort, "expiresAt": time.Now().Add(15 * time.Minute).UnixMilli()})
 	case "databases.restoreDatabase":
 		d := fakeDatabase("provisioning")
 		d["id"], d["name"] = "db_2", body["name"]

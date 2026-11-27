@@ -3592,6 +3592,56 @@ type V1DatabasesCreateDatabaseResponseBody struct {
 	Meta Meta `json:"meta"`
 }
 
+// V1DatabasesCreateTunnelRequestBody defines model for V1DatabasesCreateTunnelRequestBody.
+type V1DatabasesCreateTunnelRequestBody struct {
+	// Database The database's id, or its name together with `project`.
+	//
+	//
+	// Example: main
+	Database string `json:"database"`
+
+	// Project The project's id or slug. Needed to address a database by name; optional when `database` is an id.
+	Project *ResourceIdentifier `json:"project,omitempty"`
+}
+
+// V1DatabasesCreateTunnelResponseBody defines model for V1DatabasesCreateTunnelResponseBody.
+type V1DatabasesCreateTunnelResponseBody struct {
+	// Data A short-lived token to open tunnels to a database through its server's proxy.
+	Data V1DatabasesCreateTunnelResponseData `json:"data"`
+
+	// Meta Metadata object included in every API response. This provides context about the request and is essential for debugging, audit trails, and support inquiries. The `requestId` is particularly important when troubleshooting issues with the Teral support team.
+	Meta Meta `json:"meta"`
+}
+
+// V1DatabasesCreateTunnelResponseData A short-lived token to open tunnels to a database through its server's proxy.
+type V1DatabasesCreateTunnelResponseData struct {
+	// ExpiresAt Unix timestamp in milliseconds after which the token opens no new connections.
+	// Connections opened before stay up.
+	//
+	//
+	// Example: 1704068100000
+	ExpiresAt int64 `json:"expiresAt"`
+
+	// Host The database's host name, used for the connection and as the TLS server name.
+	//
+	// Example: pg-a1b2c3d4.db.teral.dev
+	Host string `json:"host"`
+
+	// Port The port of the database proxy.
+	//
+	// Example: 5432
+	Port int32 `json:"port"`
+
+	// Token The signed tunnel token. After a TLS handshake with `host` (as the server name) and the
+	// ALPN protocol `teral-tunnel`, send `TERAL-TUNNEL <token>` and a newline; the database
+	// proxy answers `OK` or `ERR <reason>`, each on its own line. After `OK` the connection
+	// carries the Postgres protocol without its own TLS. Treat the token as a secret.
+	//
+	//
+	// Example: your-tunnel-token
+	Token string `json:"token"`
+}
+
 // V1DatabasesDeleteDatabaseRequestBody defines model for V1DatabasesDeleteDatabaseRequestBody.
 type V1DatabasesDeleteDatabaseRequestBody struct {
 	// Database The database's id, or its name together with `project`.
@@ -5470,6 +5520,9 @@ type DatabasesCreateBackupJSONRequestBody = V1DatabasesCreateBackupRequestBody
 // DatabasesCreateDatabaseJSONRequestBody defines body for DatabasesCreateDatabase for application/json ContentType.
 type DatabasesCreateDatabaseJSONRequestBody = V1DatabasesCreateDatabaseRequestBody
 
+// DatabasesCreateTunnelJSONRequestBody defines body for DatabasesCreateTunnel for application/json ContentType.
+type DatabasesCreateTunnelJSONRequestBody = V1DatabasesCreateTunnelRequestBody
+
 // DatabasesDeleteDatabaseJSONRequestBody defines body for DatabasesDeleteDatabase for application/json ContentType.
 type DatabasesDeleteDatabaseJSONRequestBody = V1DatabasesDeleteDatabaseRequestBody
 
@@ -6713,6 +6766,56 @@ type ClientInterface interface {
 	//
 	// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
 	DatabasesCreateDatabase(ctx context.Context, body DatabasesCreateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesCreateTunnelWithBody Create database tunnel
+	//
+	// Get a short-lived token to reach a database through its server's database proxy, the way
+	// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+	// connections until then; connections stay up after it expires.
+	//
+	// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+	// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+	// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+	// database still asks for its password.
+	//
+	// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+	// recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+	DatabasesCreateTunnelWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DatabasesCreateTunnel Create database tunnel
+	//
+	// Get a short-lived token to reach a database through its server's database proxy, the way
+	// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+	// connections until then; connections stay up after it expires.
+	//
+	// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+	// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+	// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+	// database still asks for its password.
+	//
+	// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+	// recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+	DatabasesCreateTunnel(ctx context.Context, body DatabasesCreateTunnelJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DatabasesDeleteDatabaseWithBody Delete database
 	//
@@ -9641,6 +9744,76 @@ func (c *Client) DatabasesCreateDatabaseWithBody(ctx context.Context, contentTyp
 // Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
 func (c *Client) DatabasesCreateDatabase(ctx context.Context, body DatabasesCreateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewDatabasesCreateDatabaseRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesCreateTunnelWithBody Create database tunnel
+//
+// Get a short-lived token to reach a database through its server's database proxy, the way
+// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+// connections until then; connections stay up after it expires.
+//
+// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+// database still asks for its password.
+//
+// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+// recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+func (c *Client) DatabasesCreateTunnelWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesCreateTunnelRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DatabasesCreateTunnel Create database tunnel
+//
+// Get a short-lived token to reach a database through its server's database proxy, the way
+// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+// connections until then; connections stay up after it expires.
+//
+// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+// database still asks for its password.
+//
+// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+// recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+func (c *Client) DatabasesCreateTunnel(ctx context.Context, body DatabasesCreateTunnelJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDatabasesCreateTunnelRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -13199,6 +13372,46 @@ func NewDatabasesCreateDatabaseRequestWithBody(server string, contentType string
 	return req, nil
 }
 
+// NewDatabasesCreateTunnelRequest calls the generic DatabasesCreateTunnel builder with application/json body
+func NewDatabasesCreateTunnelRequest(server string, body DatabasesCreateTunnelJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDatabasesCreateTunnelRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDatabasesCreateTunnelRequestWithBody constructs an http.Request for the DatabasesCreateTunnel method, with any body, and a specified content type
+func NewDatabasesCreateTunnelRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/databases.createTunnel")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewDatabasesDeleteDatabaseRequest calls the generic DatabasesDeleteDatabase builder with application/json body
 func NewDatabasesDeleteDatabaseRequest(server string, body DatabasesDeleteDatabaseJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -15682,6 +15895,56 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with POST /v1/databases.createDatabase (the `DatabasesCreateDatabase` operationId).
 	DatabasesCreateDatabaseWithResponse(ctx context.Context, body DatabasesCreateDatabaseJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesCreateDatabaseResponse, error)
+
+	// DatabasesCreateTunnelWithBodyWithResponse Create database tunnel
+	//
+	// Get a short-lived token to reach a database through its server's database proxy, the way
+	// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+	// connections until then; connections stay up after it expires.
+	//
+	// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+	// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+	// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+	// database still asks for its password.
+	//
+	// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+	// recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+	DatabasesCreateTunnelWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesCreateTunnelResponse, error)
+
+	// DatabasesCreateTunnelWithResponse Create database tunnel
+	//
+	// Get a short-lived token to reach a database through its server's database proxy, the way
+	// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+	// connections until then; connections stay up after it expires.
+	//
+	// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+	// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+	// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+	// database still asks for its password.
+	//
+	// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+	// recorded in the workspace's audit log.
+	//
+	// **Required Permissions**
+	//
+	// Your root key must have one of the following permissions:
+	// - `project.*.read_database_credentials`
+	// - `project.<project_id>.read_database_credentials`
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+	DatabasesCreateTunnelWithResponse(ctx context.Context, body DatabasesCreateTunnelJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesCreateTunnelResponse, error)
 
 	// DatabasesDeleteDatabaseWithBodyWithResponse Delete database
 	//
@@ -19170,6 +19433,89 @@ func (r DatabasesCreateDatabaseResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r DatabasesCreateDatabaseResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DatabasesCreateTunnelResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *V1DatabasesCreateTunnelResponseBody
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *BadRequestErrorResponse
+	// JSON401 the response for an HTTP 401 `application/json` response
+	JSON401 *UnauthorizedErrorResponse
+	// JSON403 the response for an HTTP 403 `application/json` response
+	JSON403 *ForbiddenErrorResponse
+	// JSON404 the response for an HTTP 404 `application/json` response
+	JSON404 *NotFoundErrorResponse
+	// JSON412 the response for an HTTP 412 `application/json` response
+	JSON412 *PreconditionFailedErrorResponse
+	// JSON500 the response for an HTTP 500 `application/json` response
+	JSON500 *InternalServerErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON200() *V1DatabasesCreateTunnelResponseBody {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON400() *BadRequestErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON401 returns the response for an HTTP 401 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON401() *UnauthorizedErrorResponse {
+	return r.JSON401
+}
+
+// GetJSON403 returns the response for an HTTP 403 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON403() *ForbiddenErrorResponse {
+	return r.JSON403
+}
+
+// GetJSON404 returns the response for an HTTP 404 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON404() *NotFoundErrorResponse {
+	return r.JSON404
+}
+
+// GetJSON412 returns the response for an HTTP 412 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON412() *PreconditionFailedErrorResponse {
+	return r.JSON412
+}
+
+// GetJSON500 returns the response for an HTTP 500 `application/json` response
+func (r DatabasesCreateTunnelResponse) GetJSON500() *InternalServerErrorResponse {
+	return r.JSON500
+}
+
+// GetBody returns the raw response body bytes
+func (r DatabasesCreateTunnelResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DatabasesCreateTunnelResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DatabasesCreateTunnelResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DatabasesCreateTunnelResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -23817,6 +24163,68 @@ func (c *ClientWithResponses) DatabasesCreateDatabaseWithResponse(ctx context.Co
 	return ParseDatabasesCreateDatabaseResponse(rsp)
 }
 
+// DatabasesCreateTunnelWithBodyWithResponse Create database tunnel
+//
+// Get a short-lived token to reach a database through its server's database proxy, the way
+// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+// connections until then; connections stay up after it expires.
+//
+// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+// database still asks for its password.
+//
+// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+// recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+func (c *ClientWithResponses) DatabasesCreateTunnelWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DatabasesCreateTunnelResponse, error) {
+	rsp, err := c.DatabasesCreateTunnelWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesCreateTunnelResponse(rsp)
+}
+
+// DatabasesCreateTunnelWithResponse Create database tunnel
+//
+// Get a short-lived token to reach a database through its server's database proxy, the way
+// `teral db tunnel` does. The token is valid for 15 minutes and opens any number of
+// connections until then; connections stay up after it expires.
+//
+// A tunnel connection is TLS to `host`:`port` with the ALPN protocol `teral-tunnel`. The client
+// sends `TERAL-TUNNEL <token>` and a newline, the proxy answers `OK` or `ERR <reason>` on one
+// line, and after `OK` the connection carries the Postgres protocol without its own TLS. The
+// database still asks for its password.
+//
+// A tunnel is as sensitive as the credentials, so it needs the same permission. Every call is
+// recorded in the workspace's audit log.
+//
+// **Required Permissions**
+//
+// Your root key must have one of the following permissions:
+// - `project.*.read_database_credentials`
+// - `project.<project_id>.read_database_credentials`
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/databases.createTunnel (the `DatabasesCreateTunnel` operationId).
+func (c *ClientWithResponses) DatabasesCreateTunnelWithResponse(ctx context.Context, body DatabasesCreateTunnelJSONRequestBody, reqEditors ...RequestEditorFn) (*DatabasesCreateTunnelResponse, error) {
+	rsp, err := c.DatabasesCreateTunnel(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDatabasesCreateTunnelResponse(rsp)
+}
+
 // DatabasesDeleteDatabaseWithBodyWithResponse Delete database
 //
 // Delete a managed database, **data included**. This cannot be undone.
@@ -27530,6 +27938,74 @@ func ParseDatabasesCreateDatabaseResponse(rsp *http.Response) (*DatabasesCreateD
 			return nil, err
 		}
 		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDatabasesCreateTunnelResponse parses an HTTP response from a DatabasesCreateTunnelWithResponse call
+func ParseDatabasesCreateTunnelResponse(rsp *http.Response) (*DatabasesCreateTunnelResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DatabasesCreateTunnelResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest V1DatabasesCreateTunnelResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ForbiddenErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest NotFoundErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 412:
+		var dest PreconditionFailedErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
 
 	}
 
